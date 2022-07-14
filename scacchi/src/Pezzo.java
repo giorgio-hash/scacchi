@@ -18,7 +18,7 @@ public abstract class Pezzo {
     (che deve essere libera in s)
     da considerare l'arrocco ma non lo scacco*/
 
-    abstract ArrayList<Integer> listaSpostamentoPotenziale (Stato s);
+    ArrayList<Integer> listaSpostamentoPotenziale (Stato s);
     /*restituisce un arraylist contenente tutte e sole le posizioni della scacchiera 
     verso le quali il pezzo può muovere a partire dallo stato s.
     da considerare l'arrocco ma non lo scacco*/
