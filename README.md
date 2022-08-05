@@ -3,10 +3,11 @@
 c'è ancora tanto da fare
 
 >controllati e corretti(del tutto o quasi):
--Pezzo
--Caselle
--Scacchiera
--Stato
+<ul><li>Pezzo</li>
+<li>Caselle</li>
+<li>Scacchiera</li>
+<li>Stato</li>
+</ul>
 
 >GiocatorePM è stato deciso essere int (1=bianco, 2=nero)
 
