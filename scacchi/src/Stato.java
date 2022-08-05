@@ -1,12 +1,19 @@
-package cleii.scacchi;
+
 import java.util.ArrayList;
 
+
+/**
+ * @author gchir
+ *
+ *
+ *
+ */
 public class Stato {
 /*stato del gioco: scacchiera - giocatore che deve fare la prima mossa - arrocco bianco - arrocco nero
 - cattura en passant bianco - cattura en passant nero*/
 	
     private Scacchiera scacchiera;
-    private boolean giocatorePM;
+    private int giocatorePM; //cambiato giocatorePM in int
     private boolean arroccoBL;
     private boolean arroccoBC;
     private boolean arroccoNL;
@@ -14,7 +21,7 @@ public class Stato {
     private boolean enPassantB;
     private boolean enPassantN;
 	
-    public Stato (Scacchiera scacchiera, boolean giocatorePM, boolean arroccoBL, boolean arroccoBC, boolean arroccoNL, boolean arroccoNC, boolean enPassantB, boolean enPassantN) {
+    public Stato (Scacchiera scacchiera, int giocatorePM, boolean arroccoBL, boolean arroccoBC, boolean arroccoNL, boolean arroccoNC, boolean enPassantB, boolean enPassantN) {
     	this.scacchiera=scacchiera;
         this.giocatorePM=giocatorePM;
         this.arroccoBL=arroccoBL;
@@ -26,15 +33,15 @@ public class Stato {
     }
 
     public Scacchiera getScacchiera() {
-        return Scacchiera;
+        return scacchiera;
     }
 
-    public void setGiocatorePM(boolean giocatorePM) {
-        this.giocatorePM=giorcatorePM;
+    public void setGiocatorePM(int giocatorePM) {
+        this.giocatorePM=giocatorePM;
     }
 
-    public boolean getGiocatorePM() {
-        return getGiocatorePM;
+    public int getGiocatorePM() {
+        return giocatorePM;
     }
 
     public void setArroccoBL(boolean arroccoBL) {
@@ -65,7 +72,7 @@ public class Stato {
         this.arroccoNC=arroccoNC;
     }
 
-    public boolean setArroccoNC() {
+    public boolean getArroccoNC() {
         return arroccoNC;
     }
 
@@ -73,7 +80,7 @@ public class Stato {
         this.enPassantB=enPassantB;
     }
 
-    public booolean getEnPassantB() {
+    public boolean getEnPassantB() {
         return enPassantB;
     }
 
@@ -86,20 +93,29 @@ public class Stato {
     }
 
     public Stato (Stato stato) {
-        this.scacchiera=new Scacchiera(scacchiera.getScacchiera());
-        this.giocatorePM=giocatorePM;
-        this.arroccoBL=arroccoBL;
-        this.arroccoBC=arroccoBC;
-        this.arroccoNL=arroccoNL;
-        this.arroccoNC=arroccoNC;
-        this.enPassantB=enPassantB;
-        this.enPassantN=enPassantN;
+        this.scacchiera=stato.getScacchiera();
+        this.giocatorePM=stato.getGiocatorePM();
+        this.arroccoBL=stato.getArroccoBL();
+        this.arroccoBC=stato.getArroccoBC();
+        this.arroccoNL=stato.getArroccoNL();
+        this.arroccoNC=stato.getArroccoNC();
+        this.enPassantB=stato.getEnPassantB();
+        this.enPassantN=stato.getEnPassantN();
     }
 
+    /**
+     * n.b. per come è strutturato, il primo if potrebbe dare errori
+     * 
+     * @param pos : posizione in esame
+     * @param white : colore dell'attaccante
+     * @return True se la casella è del colore opposto risp. all'attaccante o se è vuota
+     */
     public boolean sottoAttacco (int pos, boolean white) {
     /*true se la casa pos Ã¨ sotto attacco da parte di white=true o nero(white=false)
     pos deve essere una casa vuota o contenente un pezzo di colore diverso dal colore che pone sotto attacco.*/
-        if((scacchiera.ifOccupata(pos)==true) || (scacchiera.getColorePezzo(scacchiera.getPezzo(pos))!=white)){
+        
+    	
+    /*if((scacchiera.ifOccupata(pos)==true) || (scacchiera.getColorePezzo(scacchiera.getPezzo(pos))!=white)){
             return false;
         } else if (white==true) {
             if((scacchiera.ifOccupata(pos)==false) && (scacchiera.getColorePezzo(scacchiera.getPezzo(pos))==white)){
@@ -123,26 +139,49 @@ public class Stato {
                     }
                 }
             } else return false;
-        }
+        }*/
+    	
+    	if(!scacchiera.ifOccupata(pos) || scacchiera.getColorePezzo(scacchiera.getPezzo(pos)) != white) {
+    		
+    		//non è occupata oppure il pezzo che la occupa è di colore opposto risp. all'attaccante
+    		return true;
+    		
+    	}
+    	
+    	
+		 //caso rimanente: è occupata ma dallo stesso colore dell'attaccante
+		 return false;
+    	
     }
+    
+    
+    
 
     public boolean scacco() {
     //true se il re del giocatore prima mossa si trova in una casa sotto attacco
-        if(giocatorePM==true) {
-            return sottoAttacco(scacchiera.getPezzo(pos).mostraLettera()=='R', false);
-        } else if(giocatorePM==false) {
-            return sottoAttacco(scacchiera.getPezzo(pos).mostraLettera()=='r', true);
-        }
-    };
+        if(giocatorePM==1) {
+        	//re bianco
+            return sottoAttacco(scacchiera.getPos(new Re(true)), false);
+            
+        } 
+            
+        //re nero
+        return sottoAttacco(scacchiera.getPos(new Re(false)), true);
+        
+    }
 
     boolean scaccoMatto() {
     //true se il re del giocatore prima mossa si trova sotto scacco e l'altro giocatore non ha mosse valide
-        for(int i=0; i<)
+        //for(int i=0; i<)
     };
 
     boolean stallo () {
     //true se il giocatore prima mossa non ha mosse valide e non ha il re sotto scacco    
-        if (giocatore.getRe().mostraLettera() == 'R' || giocatore.getRe().mostraLettera() == 'r' ) {
+        
+    /*
+     * da rifare
+     * 
+     * if (giocatore.getRe().mostraLettera() == 'R' || giocatore.getRe().mostraLettera() == 'r' ) {
             try {
                 if (giocatorePM == giocatore.getGiocatorePM() && !(sottoAttacco(giocatore.getPos(), true) || !sottoAttacco(giocatore.getPos(), false))) {
                     if (mossaValida(from, to, promozione) == false) {
@@ -160,7 +199,10 @@ public class Stato {
     	esito = false;
     }
     return esito;
-    };
+    */
+    	
+    }
+    	
 
     Stato simulaSpostamentoOCattura (int from, int to, int promozione) {
     /*che restituisce un nuovo stato risultante dalla mossa del giocatore di turno dalla casa from alla casa to, se

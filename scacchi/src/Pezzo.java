@@ -5,20 +5,23 @@ public abstract class Pezzo {
 //rappresenta i pezzi posizionabili sulla scacchiera
     
     protected boolean white;
-    protected int pos;
+    private int pos;
+    private char lettera;
+    
 
-    public Pezzo (boolean white) {
+    public Pezzo (boolean white,char lettera) {
         this.white=white;
+        this.lettera = lettera;
     }
 
-    abstract char mostraLettera();
+    
 
     abstract boolean spostamentoPotenziale (Stato s, int target);
     /*true: se il pezzo può muovere nello stato s dalla propria casa alla casa target 
     (che deve essere libera in s)
     da considerare l'arrocco ma non lo scacco*/
 
-    ArrayList<Integer> listaSpostamentoPotenziale (Stato s);
+    abstract ArrayList<Integer> listaSpostamentoPotenziale (Stato s);
     /*restituisce un arraylist contenente tutte e sole le posizioni della scacchiera 
     verso le quali il pezzo può muovere a partire dallo stato s.
     da considerare l'arrocco ma non lo scacco*/
@@ -40,7 +43,11 @@ public abstract class Pezzo {
     
     
     public int getPos() {
-    	return this.pos;
+    	return pos;
+    }
+    
+    public char mostraLettera() {
+    	return lettera;
     }
 
 }

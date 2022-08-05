@@ -1,22 +1,14 @@
-package cleii.scacchi;
 
 import java.util.ArrayList;
 
 public class Pedone extends Pezzo {
-	private Pedone p = new Pedone(white);
+	//private Pedone p = new Pedone(white);
 	
     public Pedone (boolean white) {
-        super(white);
+        super(white,white?'P':'p');
     }
 
-    @Override
-    char mostraLettera () {
-        if (white==true){ 
-            return 'P';
-        } else {
-            return 'p';
-       }
-    }
+  
 
     //MANCA ARROCCO E POSIZIONE TRA I PIEDI(SE DEVO ANDARE IN TARGET MA DI MEZZO C'E' UN PEZZO NON CI POSSO ANDARE!)
     //MANCA PRIMA MOSSA--> PUO' FARE DUE PASSI IN AVANTI IL PEDONE

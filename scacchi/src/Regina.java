@@ -1,21 +1,13 @@
-package cleii.scacchi;
 
 import java.util.ArrayList;
 
 public class Regina extends Pezzo {
 
     public Regina (boolean white) {
-        super(white);
+        super(white,white?'Q':'q');
     }
 
-    @Override
-    char mostraLettera () {
-        if (white==true){ 
-            return 'Q';
-        } else {
-            return 'q';
-       }
-    }
+ 
 
     @Override
     boolean spostamentoPotenziale (Stato s, int target){

@@ -1,20 +1,10 @@
-package cleii.scacchi;
 
 import java.util.ArrayList;
 
 public class Re extends Pezzo {
 
     public Re (boolean white) {
-        super(white);
-    }
-
-    @Override
-    char mostraLettera () {
-        if (white==true){ 
-            return 'R';
-        } else {
-            return 'r';
-       }
+        super(white,white?'R':'r');
     }
 
     @Override

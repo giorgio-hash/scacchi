@@ -2,23 +2,15 @@
 import java.util.ArrayList;
 
 public class Alfiere extends Pezzo {
-	private Alfiere p = new Alfiere(white); //perchè un'istanza di alfiere dentro alfiere stesso??
+	//private Alfiere p = new Alfiere(white); //perchè un'istanza di alfiere dentro alfiere stesso??
 	
 	
 	
 	
 	
     public Alfiere (boolean white) {
-        super(white);
-    }
-
-    @Override
-    char mostraLettera () {
-        if (white==true){ 
-            return 'B';
-        } else {
-            return 'b';
-       }
+        super(white,white?'A':'a');
+        
     }
 
     
@@ -33,7 +25,7 @@ public class Alfiere extends Pezzo {
       	int from = p.getPos();
     	Scacchiera scacchiera = s.getScacchiera();
     	//allora la posizione Ã¨ libera ci posso andare con l'alfiere    	
-    	int giocatore = s.getGiocatore();
+    	int giocatore = s.getGiocatorePM();
     		//movimenti a sinistra obl. , destra obl., andando avanti e indietro quindi non solo in AVANZAMENTO
     		if(scacchiera.ifOccupata(target) == false) {
     			//bisogno di un ciclo per valutare i movimenti target possibili 
@@ -72,7 +64,7 @@ public class Alfiere extends Pezzo {
     target deve essere libero oppure occupato da un pezzo avversario. 
     non considera lo scacco*/
     	 Scacchiera c = s.getScacchiera();
-      	int giocatore = s.getGiocatore();
+      	int giocatore = s.getGiocatorePM();
       	Pezzo pezzoTarget = c.getPezzo(target);
       	int from = p.getPos();
       	//se il giocatore Ã¨ il bianco e il pezzo target Ã¨ il nero

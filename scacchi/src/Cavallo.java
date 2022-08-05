@@ -1,22 +1,15 @@
-package cleii.scacchi;
 
 import java.util.ArrayList;
 
 public class Cavallo extends Pezzo {
-	private Cavallo p = new Cavallo(white);
+	//private Cavallo p = new Cavallo(white);
 	
 	
     public Cavallo (boolean white) {
-        super(white);
+        super(white,white?'N':'n');
     }
-    @Override
-    char mostraLettera () {
-        if (white==true){ 
-            return 'N';
-        } else {
-            return 'n';
-       }
-    }
+    
+    
 
     //MANCA ARROCCO E POSIZIONE TRA I PIEDI(SE DEVO ANDARE IN TARGET MA DI MEZZO C'E' UN PEZZO NON CI POSSO ANDARE!)
     
@@ -29,7 +22,7 @@ public class Cavallo extends Pezzo {
     	Scacchiera scacchiera = s.getScacchiera();
     	//allora la posizione è libera ci posso andare con il cavallo->MA DEVE RIENTRARE NELLE MOSSE POTENZIALI DEL CAVALLO
     	//AD L
-    	int giocatore = s.getGiocatore();
+    	int giocatore = s.getGiocatorePM();
     	//se il giocatore è il bianco 
     	if(giocatore == 1) {
   
@@ -63,7 +56,7 @@ public class Cavallo extends Pezzo {
     target deve essere libero oppure occupato da un pezzo avversario. 
     non considera lo scacco*/
     	 	Scacchiera c = s.getScacchiera();
-         	int giocatore = s.getGiocatore();
+         	int giocatore = s.getGiocatorePM();
          	Pezzo pezzoTarget = c.getPezzo(target);
          	int from = s.scacchiera.getPos(p);
          	//se il giocatore è il bianco e il pezzo target è il nero

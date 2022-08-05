@@ -1,20 +1,13 @@
-package cleii.scacchi;
+
 import java.util.ArrayList;
 
 public class Torre extends Pezzo {
 
     public Torre (boolean white) {
-        super(white);
+        super(white,white?'T':'t');
     }
 
-    @Override
-    char mostraLettera () {
-        if (white==true){ 
-            return 'R';
-        } else {
-            return 'r';
-       }
-    }
+  
 
     @Override
     boolean spostamentoPotenziale (Stato s, int target){
