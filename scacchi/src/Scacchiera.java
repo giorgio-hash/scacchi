@@ -110,10 +110,11 @@ public class Scacchiera {
     public String toString() {
     //stampa bianchi con maiuscole, neri con minuscole e . celle vuote
         String s = "";
-        for (int i=dimensione; i>0; i--) {
-            for (int j=1; j<=dimensione; j++) {
+        for (int i=dimensione-1; i>=0; i--) {
+            for (int j=0; j<dimensione; j++) {
                 s = s + (scacchiera[i][j]).getPezzo().mostraLettera();
             }
+            s += '\n'; //va a capo per scrivere nuova riga
         }
         return s;  
     }
