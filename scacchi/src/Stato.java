@@ -2,12 +2,7 @@
 import java.util.ArrayList;
 
 
-/**
- * @author gchir
- *
- *
- *
- */
+
 public class Stato {
 /*stato del gioco: scacchiera - giocatore che deve fare la prima mossa - arrocco bianco - arrocco nero
 - cattura en passant bianco - cattura en passant nero*/
