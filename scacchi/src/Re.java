@@ -42,8 +42,8 @@ public class Re extends Pezzo {
     	diagonali:
     	no -9
     	ne +11
-    	se -11
-    	so +9
+    	so -11
+    	se +9
     	
     	le caselle vanno da 11 a 88
     	*/
@@ -51,13 +51,13 @@ public class Re extends Pezzo {
     	int[] offsets = {-10,10,1,-1,-9,11,-11,9};
     	
     	for(int i=0; i<offsets.length;i++)
-    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <88 ) {
+    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 ) {
     			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])))
     				lista.add((posizione + offsets[i]));	
     			}
     		
     
-    	if((white?s.getArroccoBL():s.getArroccoNL()) && super.getNumMosse() == 0)//verifica l'arrocco corto
+    	if((white?s.getArroccoBC():s.getArroccoNC()) && super.getNumMosse() == 0)//verifica l'arrocco corto
     		if(!s.getScacchiera().ifOccupata((posizione+10)) && !s.getScacchiera().ifOccupata((posizione+20)))//se le due caselle a est son libere
     			if(!s.sottoAttacco((posizione+10), white? false:true) && !s.sottoAttacco((posizione+20), white? false:true))//se le due caselle a est non sono potenzialmente sotto attacco(secondo wikipedia e wikihow)
     			if(s.getScacchiera().getPezzo(posizione+30).mostraLettera()==(white?'R':'r'))//se la terza casella a est è una torre
@@ -80,7 +80,7 @@ public class Re extends Pezzo {
     target deve essere libero oppure occupato da un pezzo avversario. 
     non considera lo scacco*/
         
-        return true;
+        return listaAttacco(s).contains(target);
     }
 
     @Override
@@ -90,7 +90,36 @@ public class Re extends Pezzo {
     le posizioni restituite devono corrispondere a una casa libera oppure occupata da un pezzo avversario. 
     sovrascriverlo nelle sottoclassi*/
 
-    return null;
+    	int posizione = s.getScacchiera().getPos(this);
+        
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+    	
+    	
+    	/*
+    	o -10
+    	e +10
+    	n +1
+    	s -1
+    	
+    	diagonali:
+    	no -9
+    	ne +11
+    	so -11
+    	se +9
+    	
+    	le caselle vanno da 11 a 88
+    	*/
+    	
+    	int[] offsets = {-10,10,1,-1,-9,11,-11,9};
+    	
+    	for(int i=0; i<offsets.length;i++)
+    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 ) {
+    			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])) || s.sottoAttacco(posizione + offsets[i], white))  //se libera oppure occupata da pezzo avversario
+    				lista.add((posizione + offsets[i]));	
+    			}
+    		
+    
+        return lista;
     }
     
 }

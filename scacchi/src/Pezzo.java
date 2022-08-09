@@ -5,7 +5,7 @@ public abstract class Pezzo {
 //rappresenta i pezzi posizionabili sulla scacchiera
     
     protected boolean white;
-    private int pos;
+   
     private char lettera;
     private int numMosse;
     
@@ -42,11 +42,28 @@ public abstract class Pezzo {
     verso le quali il pezzo può muovere a partire dallo stato s.
     da considerare l'arrocco ma non lo scacco*/
 
+    
+    /**
+     * 
+     * 
+     * @param s : <i>Stato</i> stato
+     * @param target : <i>int</i> target 
+     * @return <i>boolean</i>
+     */
     abstract boolean attacco (Stato s, int target);
     /*true se e solo se nello stato s il pezzo pone sotto attacco la casa target
     target deve essere libero oppure occupato da un pezzo avversario. 
     non considera lo scacco*/
 
+    
+    /**
+     * restituisce un arraylist contenente tutte e sole le posizioni della scacchiera che
+    sono sotto attacco da parte del pezzo nello stato s. 
+    <br>le posizioni restituite devono corrispondere a una casa libera oppure occupata da un pezzo avversario. 
+     * 
+     * 
+     * 
+     */
     ArrayList<Integer> listaAttacco (Stato s) {
     /*restituisce un arraylist contenente tutte e sole le posizioni della scacchiera che
     sono sotto attacco da parte del pezzo nello stato s. 
@@ -58,9 +75,7 @@ public abstract class Pezzo {
     
     
     
-    public int getPos() {
-    	return pos;
-    }
+  
     
     public char mostraLettera() {
     	return lettera;

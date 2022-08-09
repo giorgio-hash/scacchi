@@ -198,16 +198,36 @@ public class Stato {
     	
     }
     	
-
+    /**
+     * Restituisce un nuovo stato risultante dalla mossa del giocatore di turno dalla casa from alla casa to, se
+     <ul>
+     <li>nella casa from è presente un pezzo del giocatore individuato dal parametro white</li>
+    <li>tale mossa rientra tra gli spostamenti potenziali del pezzo in questione, oppure è diretta verso una casa, sotto attacco dal pezzo in questione, che contiene un pezzo del giocatore avversario.<br>
+    Altrimenti restituisce null.</li>
+    </ul>
+    <p>Il parametro promozione è usato unicamente nel caso in cui si tratti di uno
+    spostamento del pedone che raggiunge la traversa più lontana dalla sua posizione
+    inziale e indica il pezzo di promozione del pedone: <br>(0=regina, 1=cavallo, 2=alfiere,
+    3=torre)</p>
+     * 
+     * @param from : <i>int</i> posizione iniziale
+     * @param to : <i>int</i> posizione target
+     * @param promozione  : <i>int</i> promozione pedina: 0=regina, 1=cavallo, 2=alfiere,
+    3=torre
+     * @return <i>Stato</i> se i parametri sono corretti
+     * <br> <i>null</i> se ci sono errori nei parametri
+     */
     Stato simulaSpostamentoOCattura (int from, int to, int promozione) {
-    /*che restituisce un nuovo stato risultante dalla mossa del giocatore di turno dalla casa from alla casa to, se
-    â–ª nella casa from Ã¨ presente un pezzo del giocatore individuato dal parametro white
-    â–ª tale mossa rientra tra gli spostamenti potenziali del pezzo in questione, oppure Ã¨ diretta verso una casa, sotto attacco dal pezzo in questione, che contiene un pezzo del giocatore avversario.
-    Altrimenti restituisce null.
-    Il parametro promozione Ã¨ usato unicamente nel caso in cui si tratti di uno
-    spostamento del pedone che raggiunge la traversa piÃ¹ lontana dalla sua posizione
-    inziale e indica il pezzo di promozione del pedone: (0=regina, 1=cavallo, 2=alfiere,
-    3=torre). */
+    	/*che restituisce un nuovo stato risultante dalla mossa del giocatore di turno dalla casa from alla casa to, se
+        --> nella casa from è presente un pezzo del giocatore individuato dal parametro white
+        --> tale mossa rientra tra gli spostamenti potenziali del pezzo in questione, oppure è diretta verso una casa, sotto attacco dal pezzo in questione, che contiene un pezzo del giocatore avversario.
+        Altrimenti restituisce null.
+        Il parametro promozione è usato unicamente nel caso in cui si tratti di uno
+        spostamento del pedone che raggiunge la traversa più lontana dalla sua posizione
+        inziale e indica il pezzo di promozione del pedone: (0=regina, 1=cavallo, 2=alfiere,
+        3=torre). */
+    	
+    	/*
     	int rigaf = from%10;
     	int colonnaf = from/10;
         if (Scacchiera.scacchiera[rigaf][colonnaf].getPezzo().white==true) { //allora Ã¨ il giocatore identificato da white
@@ -266,7 +286,53 @@ public class Stato {
         	return new Stato(scacchiera, giocatore, arroccoB, arroccoN, enPassantB, enPassantN);
         } else {
         	return null;
-        }
+        }*/
+    	
+    	int rigaf = from%10;
+    	int colonnaf = from/10;
+    	int rigat = to%10;
+    	int colonnat = to/10;
+    	
+    	Pezzo pezzo = scacchiera.getScacchiera()[rigaf][colonnaf].getPezzo();
+    	
+    	if(pezzo == null || scacchiera.getScacchiera()[rigaf][colonnaf].getColorePedina() != (giocatorePM==1?true:false))
+    		return null; //se la casella from non ha pezzo o non ha un pezzo del giocatore selezionato
+    	
+    	
+    	if(pezzo.spostamentoPotenziale(this, to) || pezzo.attacco(this, to)) {
+    		
+    		Stato simulato = new Stato(this); //stiamo simulando! creo una copia dello stato attuale
+    		
+    		simulato.getScacchiera().getScacchiera()[rigaf][colonnaf].togliPedina(); //rimuovo dal from
+    		simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(pezzo); //aggiungo al to
+    		
+    		if(pezzo.mostraLettera() == 'P' || pezzo.mostraLettera() == 'p') {
+    			if(rigat == simulato.getScacchiera().getTraversa(giocatorePM))
+    				switch(promozione) {
+    				
+    					case 0://regina
+    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Regina(giocatorePM==1?true:false));
+    						break;
+    						
+    					case 1://cavallo
+    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Cavallo(giocatorePM==1?true:false));
+    						break;
+    						
+    					case 2://alfiere
+    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Alfiere(giocatorePM==1?true:false));
+    						break;
+    						
+    					case 3://torre
+    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Torre(giocatorePM==1?true:false));
+    						break;
+    				}
+    		}
+    		
+    		
+    		return simulato;
+    	}
+    	
+    	return null;
     };    
 
     

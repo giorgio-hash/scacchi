@@ -27,7 +27,7 @@ public class Scacchiera {
     private void creaScacchiera(){
         for (int i=0; i<dimensione; i++) {
             for (int j=0; j<dimensione; j++) {
-                scacchiera[i][j] = new Caselle(coloreCasella1);
+                scacchiera[i][j] = new Caselle(coloreCasella1,((j+1)*10)+(i+1));
                 if(coloreCasella1==true){
                     coloreCasella1=false;
                 } else {
@@ -50,31 +50,31 @@ public class Scacchiera {
     	
     	
     	for(int i=0; i<8; i++)
-    		scacchiera[1][i].inserisciPedina(new Pedone(true), ((i+1)*10)+2);
+    		scacchiera[1][i].inserisciPedina(new Pedone(true));
     	
-        scacchiera[0][0].inserisciPedina(new Torre(true), 11);
-        scacchiera[0][1].inserisciPedina(new Cavallo(true), 21);
-        scacchiera[0][2].inserisciPedina(new Alfiere(true), 31);
-        scacchiera[0][3].inserisciPedina(new Regina(true), 41);
-        scacchiera[0][4].inserisciPedina(new Re(true), 51);
-        scacchiera[0][5].inserisciPedina(new Alfiere(true), 61);
-        scacchiera[0][6].inserisciPedina(new Cavallo(true), 71);
-        scacchiera[0][7].inserisciPedina(new Torre(true), 81);
+        scacchiera[0][0].inserisciPedina(new Torre(true));
+        scacchiera[0][1].inserisciPedina(new Cavallo(true));
+        scacchiera[0][2].inserisciPedina(new Alfiere(true));
+        scacchiera[0][3].inserisciPedina(new Regina(true));
+        scacchiera[0][4].inserisciPedina(new Re(true));
+        scacchiera[0][5].inserisciPedina(new Alfiere(true));
+        scacchiera[0][6].inserisciPedina(new Cavallo(true));
+        scacchiera[0][7].inserisciPedina(new Torre(true));
     }
 
     private void inserisciNeri(){
     	
     	for(int i=0; i<8; i++)
-    		scacchiera[7][i].inserisciPedina(new Pedone(false), ((i+1)*10)+8);
+    		scacchiera[7][i].inserisciPedina(new Pedone(false));
        
-    	scacchiera[7][0].inserisciPedina(new Torre(false), 17);
-        scacchiera[7][1].inserisciPedina(new Cavallo(false), 27);
-        scacchiera[7][2].inserisciPedina(new Alfiere(false), 37);
-        scacchiera[7][3].inserisciPedina(new Regina(false), 47);
-        scacchiera[7][4].inserisciPedina(new Re(false), 57);
-        scacchiera[7][5].inserisciPedina(new Alfiere(false), 67);
-        scacchiera[7][6].inserisciPedina(new Cavallo(false), 77);
-        scacchiera[7][7].inserisciPedina(new Torre(false), 87);
+    	scacchiera[7][0].inserisciPedina(new Torre(false));
+        scacchiera[7][1].inserisciPedina(new Cavallo(false));
+        scacchiera[7][2].inserisciPedina(new Alfiere(false));
+        scacchiera[7][3].inserisciPedina(new Regina(false));
+        scacchiera[7][4].inserisciPedina(new Re(false));
+        scacchiera[7][5].inserisciPedina(new Alfiere(false));
+        scacchiera[7][6].inserisciPedina(new Cavallo(false));
+        scacchiera[7][7].inserisciPedina(new Torre(false));
     }
     
     public Pezzo getPezzo (int pos) {
@@ -91,7 +91,7 @@ public class Scacchiera {
     	for(int i=0;i<8;i++)
     		for(int j=0; j<8;j++)
     			if(scacchiera[i][j].getPezzo().mostraLettera() == p.mostraLettera() )
-    				return p.getPos();
+    				return scacchiera[i][j].getPos();
     	return 0;
     }
     
@@ -133,6 +133,19 @@ public class Scacchiera {
 
     protected Caselle [][] getScacchiera() {
         return scacchiera;
+    }
+    
+    /**
+     * restituisce la traversa del giocatore (dove le pedine hanno una promozione)
+     * 
+     * @param giocatorePM : 1=bianco, 2=nero
+     * @return
+     * <i>8</i> se il giocatore parte da su
+     * <br><i>1</i> altrimenti
+     */
+    public int getTraversa(int giocatorePM) {
+    	
+    	return giocatorePM==1?8:1;
     }
    
 }

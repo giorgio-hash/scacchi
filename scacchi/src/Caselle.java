@@ -1,7 +1,6 @@
 
 public class Caselle extends Scacchiera{
 
-    //private Caselle casella;// ??
     private int pos;
     private boolean coloreCasella;
     private Stato stato;
@@ -14,20 +13,17 @@ public class Caselle extends Scacchiera{
      * 
      * 
      */
-    public Caselle(boolean white) {
+    public Caselle(boolean white, int pos) {
         this.coloreCasella=white;  //correzione: prima c'era coloreCasella
+        this.pos = pos;
     }
 
-    public void inserisciPedina(Pezzo p, int pos) {
+    public void inserisciPedina(Pezzo p) {
         this.p=p;
-        this.pos=pos;
-       // return casella;// ?? è null
     }
 
-    public void togliPedina(Pezzo p, int pos) {
+    public void togliPedina() {
         this.p=null;
-        this.pos=pos;
-       // return casella; //?? è null
     }
 
     public int getPos() {
