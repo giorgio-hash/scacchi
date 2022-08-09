@@ -1,5 +1,21 @@
 # scacchi
 
+
+<h1>aggiornamento 9/08 , 2 ore e mezza di lavoro</h1>
+
+>completato Re
+
+>completato cavallo
+
+>corretto caselle, stato, pezzo, scacchiera (modifiche piuttosto importanti e necessarie)
+
+>continuato stato (ancora da finire)
+
+<hr>
+<hr>
+<hr>
+
+
 <h1>aggiornamento 6/08 , 13:43, 1 ora di lavoro</h1>
 
 >aggiornato Re: creati listaSpostamentoPotenziale e SpostamentoPotenziale
