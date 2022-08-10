@@ -82,7 +82,7 @@ public class Cavallo extends Pezzo {
     	int[] offsets = {-21,-19,-12,8,19,21,12,-8};
     	
     	for(int i=0; i<offsets.length;i++)
-    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 ) {
+    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 && (posizione + offsets[i])%10 != 0) {
     			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])))
     				lista.add((posizione + offsets[i]));	
     			}
@@ -231,7 +231,7 @@ public class Cavallo extends Pezzo {
     	int[] offsets = {-21,-19,-12,8,19,21,12,-8};
     	
     	for(int i=0; i<offsets.length;i++)
-    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 ) {
+    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 && (posizione + offsets[i])%10 != 0 ) {
     			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])) || s.sottoAttacco(posizione + offsets[i], white))
     				lista.add((posizione + offsets[i]));	
     			}

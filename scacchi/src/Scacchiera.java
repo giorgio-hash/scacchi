@@ -100,10 +100,10 @@ public class Scacchiera {
     //stato di una casella
     	int rigaf = pos%10;
     	int colonnaf = pos/10;
-        if(scacchiera[rigaf][colonnaf] == null) {
+        if(scacchiera[rigaf-1][colonnaf-1] == null) {
             return null;
         } else {
-            return scacchiera[rigaf][colonnaf].getStato();
+            return scacchiera[rigaf-1][colonnaf-1].getStato();
         }
     }
 
@@ -121,7 +121,7 @@ public class Scacchiera {
     public boolean ifOccupata(int pos) {
     	int rigac = pos%10;
     	int colonnac = pos/10;
-    	if(this.scacchiera[rigac][colonnac] == null) {
+    	if(this.scacchiera[rigac-1][colonnac-1] == null) {
     		return false;
     	}else {
     		return true;

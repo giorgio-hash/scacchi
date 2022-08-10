@@ -293,9 +293,9 @@ public class Stato {
     	int rigat = to%10;
     	int colonnat = to/10;
     	
-    	Pezzo pezzo = scacchiera.getScacchiera()[rigaf][colonnaf].getPezzo();
+    	Pezzo pezzo = scacchiera.getScacchiera()[rigaf-1][colonnaf-1].getPezzo();
     	
-    	if(pezzo == null || scacchiera.getScacchiera()[rigaf][colonnaf].getColorePedina() != (giocatorePM==1?true:false))
+    	if(pezzo == null || scacchiera.getScacchiera()[rigaf-1][colonnaf-1].getColorePedina() != (giocatorePM==1?true:false))
     		return null; //se la casella from non ha pezzo o non ha un pezzo del giocatore selezionato
     	
     	
@@ -303,27 +303,27 @@ public class Stato {
     		
     		Stato simulato = new Stato(this); //stiamo simulando! creo una copia dello stato attuale
     		
-    		simulato.getScacchiera().getScacchiera()[rigaf][colonnaf].togliPedina(); //rimuovo dal from
-    		simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(pezzo); //aggiungo al to
+    		simulato.getScacchiera().getScacchiera()[rigaf-1][colonnaf-1].togliPedina(); //rimuovo dal from
+    		simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(pezzo); //aggiungo al to
     		
     		if(pezzo.mostraLettera() == 'P' || pezzo.mostraLettera() == 'p') {
     			if(rigat == simulato.getScacchiera().getTraversa(giocatorePM))
     				switch(promozione) {
     				
     					case 0://regina
-    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Regina(giocatorePM==1?true:false));
+    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Regina(giocatorePM==1?true:false));
     						break;
     						
     					case 1://cavallo
-    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Cavallo(giocatorePM==1?true:false));
+    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Cavallo(giocatorePM==1?true:false));
     						break;
     						
     					case 2://alfiere
-    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Alfiere(giocatorePM==1?true:false));
+    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Alfiere(giocatorePM==1?true:false));
     						break;
     						
     					case 3://torre
-    						simulato.getScacchiera().getScacchiera()[rigat][colonnat].inserisciPedina(new Torre(giocatorePM==1?true:false));
+    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Torre(giocatorePM==1?true:false));
     						break;
     				}
     		}
