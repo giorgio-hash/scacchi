@@ -57,25 +57,6 @@ public class Mossa {
 		return id;
 	}
 	
-	/**
-	 * 
-	 * decrementa contatore mosse
-	 * 
-	 */
-	public void undo() {
-		id--;
-	}
-	
-	/**
-	 * 
-	 * incrementa contatore mosse
-	 * 
-	 */
-	public void redo() {
-		id++;
-	}
-	
-	
 
 	
 	
