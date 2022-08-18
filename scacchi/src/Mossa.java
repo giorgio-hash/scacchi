@@ -1,10 +1,4 @@
 
-/**
- * classe inutile, da eliminare
- * 
- * @author gchir
- *
- */
 public class Mossa {
 	private int x1, y1, x2, y2,id;
     private String descr = "";
