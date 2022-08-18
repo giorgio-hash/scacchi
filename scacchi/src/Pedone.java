@@ -36,7 +36,7 @@ public class Pedone extends Pezzo {
     	if(white) {
 			// forward
     		if( !(x < 1 || x > 8 || y+1 < 1 || y+1 > 8) )
-    			if(!s.getScacchiera().getScacchiera()[x-1][y+1-1].ifOccupata((y+1)*10+x))
+    			if(!s.getScacchiera().ifOccupata((y+1)*10+x))
     				lista.add(((y+1)*10+x) );
     		
     		if(s.getEnPassantB() && this.getNumMosse() == 0)
@@ -46,7 +46,7 @@ public class Pedone extends Pezzo {
 		else {
 			// forward
 			if( !(x < 1 || x > 8 || y-1 < 1 || y-1 > 8) )
-    			if(!s.getScacchiera().getScacchiera()[x-1][y-1-1].ifOccupata((y-1)*10+x))
+    			if(!s.getScacchiera().ifOccupata((y-1)*10+x))
     				lista.add(((y-1)*10+x) );
 			
 			if(s.getEnPassantN() && this.getNumMosse() == 0)
@@ -85,26 +85,26 @@ public class Pedone extends Pezzo {
 			
 			
     		if( !(x+1 < 1 || x+1 > 8 || y+1 < 1 || y+1 > 8) ) 
-				if(s.getScacchiera().getScacchiera()[x+1-1][y+1-1].ifOccupata((y+1)*10+x+1)) 
+				if(s.getScacchiera().ifOccupata((y+1)*10+x+1)) 
 					if(s.getScacchiera().getScacchiera()[x+1-1][y+1-1].getPezzo().white != white)
 						lista.add( ((y+1)*10+x+1) );	
 			
 			
 					if( !(x-1 < 1 || x-1 > 8 || y+1 < 1 || y+1 > 8) ) 
-						if(s.getScacchiera().getScacchiera()[x-1-1][y+1-1].ifOccupata((y+1)*10+x-1)) 
+						if(s.getScacchiera().ifOccupata((y+1)*10+x-1)) 
 							if(s.getScacchiera().getScacchiera()[x-1-1][y+1-1].getPezzo().white != white)
 								lista.add( ((y+1)*10+x-1) );	
 		}
 		else {
 			
 			if( !(x+1 < 1 || x+1 > 8 || y-1 < 1 || y-1 > 8) ) 
-				if(s.getScacchiera().getScacchiera()[x+1-1][y-1-1].ifOccupata((y-1)*10+x+1)) 
+				if(s.getScacchiera().ifOccupata((y-1)*10+x+1)) 
 					if(s.getScacchiera().getScacchiera()[x+1-1][y-1-1].getPezzo().white != white)
 						lista.add( ((y-1)*10+x+1) );	
 			
 			
 					if( !(x-1 < 1 || x-1 > 8 || y-1 < 1 || y-1 > 8) ) 
-						if(s.getScacchiera().getScacchiera()[x-1-1][y-1-1].ifOccupata((y-1)*10+x-1)) 
+						if(s.getScacchiera().ifOccupata((y-1)*10+x-1)) 
 							if(s.getScacchiera().getScacchiera()[x-1-1][y-1-1].getPezzo().white != white)
 								lista.add( ((y-1)*10+x-1) );
 			

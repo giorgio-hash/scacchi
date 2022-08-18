@@ -103,7 +103,7 @@ public class Stato {
     }
 
     /**
-     * n.b. per come è strutturato, il primo if potrebbe dare errori
+     * 
      * 
      * @param pos : posizione in esame
      * @param white : colore dell'attaccante
@@ -140,16 +140,31 @@ public class Stato {
             } else return false;
         }*/
     	
-    	if(!scacchiera.ifOccupata(pos) || scacchiera.getColorePezzo(scacchiera.getPezzo(pos)) != white) {
-    		
-    		//non è occupata oppure il pezzo che la occupa è di colore opposto risp. all'attaccante
+    	
+    	//0. valuta se la casella è vuota
+    	if(scacchiera.getCasella(pos).getPezzo() == null)
     		return true;
-    		
-    	}
     	
     	
-		 //caso rimanente: è occupata ma dallo stesso colore dell'attaccante
-		 return false;
+    	Pezzo pezzo;
+    	
+    	//1. prendi ogni pezzo del colore avversario
+    	for(int i=0; i<8; i++)
+    		for(int j=0; j<8; j++) {
+    			
+    			pezzo = scacchiera.getScacchiera()[i][j].getPezzo();
+    			if(pezzo.white == white) {
+    				
+    				
+    				//2. valuta se almeno uno degli avversari può attaccare la casella
+    				if(pezzo.attacco(this, pos))
+    					return true;
+    					
+    			}
+    			
+    		}
+    	
+    	return false;
     	
     }
     
@@ -208,6 +223,9 @@ public class Stato {
     boolean stallo () {
     //true se il giocatore prima mossa non ha mosse valide e non ha il re sotto scacco    
         
+    	if(scacco())
+    		return false;
+    	
     	ArrayList<Pezzo> pezzi = new ArrayList<Pezzo>();
     	Pezzo pezzo;
     	boolean giocatore = giocatorePM==1?true:false;
@@ -342,27 +360,42 @@ public class Stato {
     		
     		Stato simulato = new Stato(this); //stiamo simulando! creo una copia dello stato attuale
     		
-    		simulato.getScacchiera().getScacchiera()[rigaf-1][colonnaf-1].togliPedina(); //rimuovo dal from
-    		simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(pezzo); //aggiungo al to
+    		Caselle casella;
+    		
+    		casella = simulato.getScacchiera().getScacchiera()[rigaf-1][colonnaf-1]; //rimuovo dal from
+    		casella.togliPedina();
+    		simulato.getScacchiera().setCasella(casella);
+    		casella = simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1]; //aggiungo al to
+    		casella.inserisciPedina(pezzo);
+    		simulato.getScacchiera().setCasella(casella);
     		
     		if(pezzo.mostraLettera() == 'P' || pezzo.mostraLettera() == 'p') {
     			if(rigat == simulato.getScacchiera().getTraversa(giocatorePM))
     				switch(promozione) {
     				
     					case 0://regina
-    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Regina(giocatorePM==1?true:false));
+    						casella = simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+    						casella.inserisciPedina(new Regina(giocatorePM==1?true:false));
+    						simulato.getScacchiera().setCasella(casella);
+    						
     						break;
     						
     					case 1://cavallo
-    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Cavallo(giocatorePM==1?true:false));
+    						casella = simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+    						casella.inserisciPedina(new Cavallo(giocatorePM==1?true:false));
+    						simulato.getScacchiera().setCasella(casella);
     						break;
     						
     					case 2://alfiere
-    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Alfiere(giocatorePM==1?true:false));
+    						casella = simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+    						casella.inserisciPedina(new Alfiere(giocatorePM==1?true:false));
+    						simulato.getScacchiera().setCasella(casella);
     						break;
     						
     					case 3://torre
-    						simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Torre(giocatorePM==1?true:false));
+    						casella = simulato.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+    						casella.inserisciPedina(new Torre(giocatorePM==1?true:false));
+    						simulato.getScacchiera().setCasella(casella);
     						break;
     				}
     		}
@@ -397,7 +430,7 @@ public class Stato {
     	
         if (simulaSpostamentoOCattura (from, to, promozione) != null) {
         	Stato ris = simulaSpostamentoOCattura (from, to, promozione);
-        		if(ris.scacco() != false) 
+        		if(ris.scacco()) 
         			esito = true;
         }
         		
@@ -432,8 +465,14 @@ public class Stato {
         	
         	pezzo.registraMossa();//aumenta di 1 il contatore delle mosse del pezzo
         	
-        	this.getScacchiera().getScacchiera()[rigaf-1][colonnaf-1].togliPedina(); //rimuovo dal from
-    		this.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(pezzo); //aggiungo al to
+        	Caselle casella;
+    		
+    		casella = this.getScacchiera().getScacchiera()[rigaf-1][colonnaf-1]; //rimuovo dal from
+    		casella.togliPedina();
+    		this.getScacchiera().setCasella(casella);
+    		casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1]; //aggiungo al to
+    		casella.inserisciPedina(pezzo);
+    		this.getScacchiera().setCasella(casella);
     		
     		esito = true;
     		
@@ -441,22 +480,31 @@ public class Stato {
     			if(rigat == this.getScacchiera().getTraversa(giocatorePM))
     				switch(promozione) {
     				
-    					case 0://regina
-    						this.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Regina(giocatorePM==1?true:false));
-    						break;
-    						
-    					case 1://cavallo
-    						this.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Cavallo(giocatorePM==1?true:false));
-    						break;
-    						
-    					case 2://alfiere
-    						this.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Alfiere(giocatorePM==1?true:false));
-    						break;
-    						
-    					case 3://torre
-    						this.getScacchiera().getScacchiera()[rigat-1][colonnat-1].inserisciPedina(new Torre(giocatorePM==1?true:false));
-    						break;
-    				}
+					case 0://regina
+						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+						casella.inserisciPedina(new Regina(giocatorePM==1?true:false));
+						this.getScacchiera().setCasella(casella);
+						
+						break;
+						
+					case 1://cavallo
+						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+						casella.inserisciPedina(new Cavallo(giocatorePM==1?true:false));
+						this.getScacchiera().setCasella(casella);
+						break;
+						
+					case 2://alfiere
+						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+						casella.inserisciPedina(new Alfiere(giocatorePM==1?true:false));
+						this.getScacchiera().setCasella(casella);
+						break;
+						
+					case 3://torre
+						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
+						casella.inserisciPedina(new Torre(giocatorePM==1?true:false));
+						this.getScacchiera().setCasella(casella);
+						break;
+				}
     		}
         } 
         
@@ -479,7 +527,7 @@ public class Stato {
     	
     	Pezzo pezzo = scacchiera.getPezzo(from);
     	
-    	if(pezzo.mostraLettera() == 'K' || pezzo.mostraLettera() == 'k')
+    	if(pezzo.mostraLettera() == 'R' || pezzo.mostraLettera() == 'r')
 	    	switch(giocatorePM) {
 	    	
 	    		case 1:

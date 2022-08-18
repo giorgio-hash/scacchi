@@ -1,9 +1,8 @@
 
-public class Caselle extends Scacchiera{
+public class Caselle{
 
     private int pos;
     private boolean coloreCasella;
-    private Stato stato;
     private Pezzo p;
    
     
@@ -37,16 +36,16 @@ public class Caselle extends Scacchiera{
         return coloreCasella;
     }
 
-    public Stato getStato() {
-        return stato;
-    }
-
     public Pezzo getPezzo() {
         return p;
     }
 
     public boolean getColorePedina() {
         return p.white;
+    }
+    
+    public String toString() {
+    	return coloreCasella + " " + pos;
     }
 
 }

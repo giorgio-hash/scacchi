@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Scacchiera {
     
     private final int dimensione = 8;
-    private Caselle [][] scacchiera = new Caselle[dimensione][dimensione];//le caselle vanno da [0][0] a [7][7]
+    private Caselle [][] scacchiera;//le caselle vanno da [0][0] a [7][7]
 
     /*protected int pos;
     protected int riga=pos%10;
@@ -25,8 +25,16 @@ public class Scacchiera {
 
     
     private void creaScacchiera(){
+    	
+    	scacchiera = new Caselle[dimensione][dimensione];//le caselle vanno da [0][0] a [7][7]
+
+    	//debugging
+    	int[][] posizioni = new int[dimensione][dimensione];
+    	
         for (int i=0; i<dimensione; i++) {
             for (int j=0; j<dimensione; j++) {
+            	
+            	posizioni[i][j] = ((j+1)*10)+(i+1);
                 scacchiera[i][j] = new Caselle(coloreCasella1,((j+1)*10)+(i+1));
                 if(coloreCasella1==true){
                     coloreCasella1=false;
@@ -41,7 +49,19 @@ public class Scacchiera {
                 coloreCasella2=true;
                 coloreCasella1=coloreCasella2;
             }
-        }   
+        } 
+        
+        
+        //debugging
+        String s="";
+        for (int i=dimensione-1; i>=0; i--) {
+            for (int j=0; j<dimensione; j++) {
+                s = s + " " + posizioni[i][j];   
+            }
+            s += '\n'; //va a capo per scrivere nuova riga
+        }
+        
+        System.out.println("caricamento tavola...\n\n"+s+"\n\n");
     }
 
     
@@ -65,7 +85,7 @@ public class Scacchiera {
     private void inserisciNeri(){
     	
     	for(int i=0; i<8; i++)
-    		scacchiera[7][i].inserisciPedina(new Pedone(false));
+    		scacchiera[6][i].inserisciPedina(new Pedone(false));
        
     	scacchiera[7][0].inserisciPedina(new Torre(false));
         scacchiera[7][1].inserisciPedina(new Cavallo(false));
@@ -137,7 +157,7 @@ public class Scacchiera {
     	return null;
     }
 
-    public Stato getStato (int pos) {
+    /*public Stato getStato (int pos) {
     //stato di una casella
     	int rigaf = pos%10;
     	int colonnaf = pos/10;
@@ -146,14 +166,14 @@ public class Scacchiera {
         } else {
             return scacchiera[rigaf-1][colonnaf-1].getStato();
         }
-    }
+    }*/
 
     public String toString() {
     //stampa bianchi con maiuscole, neri con minuscole e . celle vuote
         String s = "";
         for (int i=dimensione-1; i>=0; i--) {
             for (int j=0; j<dimensione; j++) {
-                s = s + (scacchiera[i][j]).getPezzo().mostraLettera();
+                s = s + ((scacchiera[i][j]).getPezzo()!=null?(scacchiera[i][j]).getPezzo().mostraLettera():".");
             }
             s += '\n'; //va a capo per scrivere nuova riga
         }

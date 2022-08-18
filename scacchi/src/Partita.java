@@ -1,37 +1,41 @@
 
 import java.util.ArrayList;
 
-public class partita {
+public class Partita {
 //memorizza lo stato del gioco, le mosse e l'eventuale esito
     private Stato s;
 	private ArrayList<Mossa> mosse;
 	private String esito;
 	private Giocatore giocatore;
 	
-    public partita () { 
-    //costruttore che crea la partita senza mosse
+    public Partita () { 
+    //costruttore che crea la Partita senza mosse
        s = new Stato(new Scacchiera(),1,false,false,false,false,false,false);
        this.mosse = new ArrayList<Mossa>();
        this.esito = "in corso";
        
     }
 
+
    
-    /** se la partita è in corso, modifica lo stato in modo da eseguire la mossa da casa from a casa to, e memorizzarla - diversamente solleva un'eccezione
+    /** se la Partita è in corso, modifica lo stato in modo da eseguire la mossa da casa from a casa to, e memorizzarla - diversamente solleva un'eccezione
     <li>arrocco --> from e to si riferiscono al re</li>
     <li>stallo --> esito: patta</li>
     <li>scacco matto --> esito: vittoria (bianchi / neri)</li>
     <br>parametro promozione: spostamento del pedone su 0=regina, 1=cavallo, 2=alfiere, 3=torre */
     public void eseguiMossa (int from, int to, int promozione) throws EccezioneMossa {
-    /* se la partita Ã¨ in corso, modifica lo stato in modo da eseguire la mossa da casa from a casa to, e memorizzarla - diversamente solleva un'eccezione
+    /* se la Partita Ã¨ in corso, modifica lo stato in modo da eseguire la mossa da casa from a casa to, e memorizzarla - diversamente solleva un'eccezione
     arrocco --> from e to si riferiscono al re
     stallo --> esito: patta
     scacco matto --> esito: vittoria (bianchi / neri)
     parametro promozione: spostamento del pedone su 0=regina, 1=cavallo, 2=alfiere, 3=torre */
     	
+    	//se sei in scacco, non puoi decidere di muovere altro
+    	if(s.scacco() && s.getScacchiera().locateRe(s.getGiocatorePM()==1?true:false) != from)
+    		throw new EccezioneMossa("sei in scacco! muovi solo il re");
     	
     	//MANCANO STALLO E SCACCO MATTO
-    	if(esito == "in corso") {
+    	if(esito.equals("in corso")) {
     		
     		if(s.eseguiMossa(from, to, promozione)) {
     		
@@ -90,19 +94,33 @@ public class partita {
         			
         		}
     			
+    			//passa il turno al prossimo giocatore
+    			s.setGiocatorePM(s.getGiocatorePM()==1?2:1);
+    		
+    			if(s.scaccoMatto()) {//se il successivo giocatore è scacco matto, allora il primo giocatore ha vinto
+    				esito = "vittoria " + (s.getGiocatorePM()==1?"neri!":"bianchi!");
+    			}
+    			else {
+    			
+    				if(s.stallo())//valuta se il giocatore successivo è in stallo
+        			{
+        				esito = "patta";
+        			}
+    				
+    			}
+    	
+    		
     		}else {
     			throw new EccezioneMossa("Mossa non valida");
     		}
     		
     		
-    		
     	}else {
     		
-    		throw new EccezioneMossa("Mossa illegale! La partita è già conclusa");
+    		throw new EccezioneMossa("Mossa illegale! La Partita è già conclusa");
     		
     	}
     	
-    	s.setGiocatorePM(s.getGiocatorePM()==1?2:1);
     	
     }
 
@@ -114,31 +132,53 @@ public class partita {
 
     public void abbandona () {
     //esito: vittoria casa che non ha abbandonato
-
+    	esito = "vittoria " + (s.getGiocatorePM()==1?"neri!":"bianchi!");
     }
 
     public boolean inCorso () {
     //true se stato Ã¨ in corso
 
-        return true;
+        return esito.equals("in corso");
     }
 
     public boolean vittoriaBianco () {
     //true se esito: vittoria bianchi
 
-        return true;
+        return esito.equals("vittoria bianchi!");
     }
 
     public boolean vittoriaNero () {
     //true se esito: vittoria neri
 
-        return true;
+        return esito.equals("vittoria neri!");
     }
 
     public boolean patta () {
     //true se esito: patta
 
-        return true;
+        return esito.equals("patta");
     }
+    
+    
+    public String getEsito() {
+    	return esito;
+    }
+    
+    public Stato getStato() {
+    	return s;
+    }
+    
+    public void setStato(Stato s) {
+    	this.s = s;
+    }
+    
+    public ArrayList<Mossa> getMosse() {
+    	return mosse;
+    }
+    
+    public Giocatore getGiocatore() {
+    	return giocatore;
+    }
+    
     
 }

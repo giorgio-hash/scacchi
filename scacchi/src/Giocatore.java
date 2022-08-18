@@ -1,6 +1,6 @@
 
 
-public class Giocatore extends partita {
+public class Giocatore{
 
     private int giocatorePM;
     private final int giocatore1=1; //pezzi bianche

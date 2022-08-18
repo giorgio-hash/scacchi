@@ -34,21 +34,21 @@ public class Torre extends Pezzo {
     	// up
     			for(int i = 1; i < 8; i++) {
     				if( !(x < 1 || x > 8 || y+i < 1 || y+i > 8) )
-    						if(!s.getScacchiera().getScacchiera()[x-1][y+i-1].ifOccupata((y+i)*10+x))
+    						if(!s.getScacchiera().ifOccupata((y+i)*10+x))
     							lista.add( ((y+i)*10+x) );		
     					}
 		
     			// down
     			for(int i = 1; i < 8; i++) {
     				if( !(x < 1 || x > 8 || y-i < 1 || y-i > 8) )
-    					if(!s.getScacchiera().getScacchiera()[x-1][y-i-1].ifOccupata((y-i)*10+x))
+    					if(!s.getScacchiera().ifOccupata((y-i)*10+x))
     							lista.add( ((y-i)*10+x) );	
     					}
 		
     			// left
     			for(int i = 1; i < 8; i++) {
     				if( !(x-i < 1 || x-i > 8 || y < 1 || y > 8) ) {
-    					if(!s.getScacchiera().getScacchiera()[x-i-1][y-1].ifOccupata(y*10+x-i))
+    					if(!s.getScacchiera().ifOccupata(y*10+x-i))
     						lista.add( (y*10+x-i) );	
     				}
     			}
@@ -56,7 +56,7 @@ public class Torre extends Pezzo {
     			// right
     			for(int i = 1; i < 8; i++) {
     				if( !(x+i < 1 || x+i > 8 || y < 1 || y > 8) ) {
-    					if(!s.getScacchiera().getScacchiera()[x+i-1][y-1].ifOccupata(y*10+x+i))
+    					if(!s.getScacchiera().ifOccupata(y*10+x+i))
     						lista.add( (y*10+x+i) );	
     				}
     			}
@@ -89,7 +89,7 @@ public class Torre extends Pezzo {
     	// up
     			for(int i = 1; i < 8; i++) {
     				if( !(x < 1 || x > 8 || y+i < 1 || y+i > 8) )
-    						if(s.getScacchiera().getScacchiera()[x-1][y+i-1].ifOccupata((y+i)*10+x)) {
+    						if(s.getScacchiera().ifOccupata((y+i)*10+x)) {
     							if(s.getScacchiera().getScacchiera()[x-1][y+i-1].getPezzo().white != white)
     								lista.add( ((y+i)*10+x) );	
     							
@@ -102,7 +102,7 @@ public class Torre extends Pezzo {
     			// down
     			for(int i = 1; i < 8; i++) {
     				if( !(x < 1 || x > 8 || y-i < 1 || y-i > 8) )
-    					if(s.getScacchiera().getScacchiera()[x-1][y-i-1].ifOccupata((y-i)*10+x)) {
+    					if(s.getScacchiera().ifOccupata((y-i)*10+x)) {
     							if(s.getScacchiera().getScacchiera()[x-1][y-i-1].getPezzo().white != white)
     								lista.add( ((y-i)*10+x) );	
     							
@@ -115,7 +115,7 @@ public class Torre extends Pezzo {
     			// left
     			for(int i = 1; i < 8; i++) {
     				if( !(x-i < 1 || x-i > 8 || y < 1 || y > 8) ) {
-    					if(s.getScacchiera().getScacchiera()[x-i-1][y-1].ifOccupata(y*10+x-i)) {
+    					if(s.getScacchiera().ifOccupata(y*10+x-i)) {
     						if(s.getScacchiera().getScacchiera()[x-i-1][y-1].getPezzo().white != white)
     							lista.add( (y*10+x-i) );	
     						
@@ -127,7 +127,7 @@ public class Torre extends Pezzo {
     			// right
     			for(int i = 1; i < 8; i++) {
     				if( !(x+i < 1 || x+i > 8 || y < 1 || y > 8) ) {
-    					if(s.getScacchiera().getScacchiera()[x+i-1][y-1].ifOccupata(y*10+x+i)) {
+    					if(s.getScacchiera().ifOccupata(y*10+x+i)) {
     						if(s.getScacchiera().getScacchiera()[x+i-1][y-1].getPezzo().white != white)
     							lista.add( (y*10+x+i) );	
     						

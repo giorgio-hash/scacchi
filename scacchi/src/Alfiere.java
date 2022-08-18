@@ -43,7 +43,7 @@ public class Alfiere extends Pezzo {
 		// NE
 		for(int i = 1; i < 8; i++) 
 			if( !(x+i < 1 || x+i > 8 || y+i < 1 || y+i > 8) ){
-				if(!s.getScacchiera().getScacchiera()[x+i-1][y+i-1].ifOccupata((y+i)*10+x+i))
+				if(!s.getScacchiera().ifOccupata((y+i)*10+x+i))
 					lista.add((y+i)*10+x+i);	
 			
 		}
@@ -51,7 +51,7 @@ public class Alfiere extends Pezzo {
 		// NW
 		for(int i = 1; i < 8; i++) 
 			if( !(x-i < 1 || x-i > 8 || y+i < 1 || y+i > 8) ){
-				if(!s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) 
+				if(!s.getScacchiera().ifOccupata((y+i)*10+x-i)) 
 					lista.add((y+i)*10+x-i);	
 			
 		}
@@ -59,7 +59,7 @@ public class Alfiere extends Pezzo {
 		// SE
 		for(int i = 1; i < 8; i++) {
 			if( !(x+i < 1 || x+i > 8 || y-i < 1 || y-i > 8) ){
-				if(!s.getScacchiera().getScacchiera()[x+i-1][y-i-1].ifOccupata((y-i)*10+x+i)) 
+				if(!s.getScacchiera().ifOccupata((y-i)*10+x+i)) 
 					lista.add((y-i)*10+x+i);	
 			}
 		}
@@ -67,7 +67,7 @@ public class Alfiere extends Pezzo {
 		// SW
 		for(int i = 1; i < 8; i++) {
 			if( !(x-i < 1 || x-i > 8 || y-i < 1 || y-i > 8) ){
-				if(!s.getScacchiera().getScacchiera()[x-i-1][y-i-1].ifOccupata((y-i)*10+x-i)) 
+				if(!s.getScacchiera().ifOccupata((y-i)*10+x-i)) 
 					lista.add((y-i)*10+x-i);
 			}
 		}
@@ -102,8 +102,8 @@ public class Alfiere extends Pezzo {
     	// NE
     			for(int i = 1; i < 8; i++) {
     				if( !(x+i < 1 || x+i > 8 || y+i < 1 || y+i > 8) ){
-    					if(s.getScacchiera().getScacchiera()[x+i-1][y+i-1].ifOccupata((y+i)*10+x+i)) { 
-    						if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) {
+    					if(s.getScacchiera().ifOccupata((y+i)*10+x+i)) { 
+    						if(s.getScacchiera().ifOccupata((y+i)*10+x-i)) {
     							if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].getPezzo().white != white)
     								lista.add( ((y+i)*10+x-i) );	
     							
@@ -116,8 +116,8 @@ public class Alfiere extends Pezzo {
     			// NW
     			for(int i = 1; i < 8; i++) {
     				if( !(x-i < 1 || x-i > 8 || y+i < 1 || y+i > 8) ){
-    					if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) { 
-    						if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) {
+    					if(s.getScacchiera().ifOccupata((y+i)*10+x-i)) { 
+    						if(s.getScacchiera().ifOccupata((y+i)*10+x-i)) {
     							if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].getPezzo().white != white)
     								lista.add( ((y+i)*10+x-i) );	
     							
@@ -130,8 +130,8 @@ public class Alfiere extends Pezzo {
     			// SE
     			for(int i = 1; i < 8; i++) {
     				if( !(x+i < 1 || x+i > 8 || y-i < 1 || y-i > 8) ){
-    					if(s.getScacchiera().getScacchiera()[x+i-1][y-i-1].ifOccupata((y-i)*10+x+i)) { 
-    						if(s.getScacchiera().getScacchiera()[x+i-1][y-i-1].ifOccupata((y-i)*10+x+i)) {
+    					if(s.getScacchiera().ifOccupata((y-i)*10+x+i)) { 
+    						if(s.getScacchiera().ifOccupata((y-i)*10+x+i)) {
     							if(s.getScacchiera().getScacchiera()[x+i-1][y-i-1].getPezzo().white != white)
     								lista.add( ((y-i)*10+x+i) );	
     							
@@ -144,8 +144,8 @@ public class Alfiere extends Pezzo {
     			// SW
     			for(int i = 1; i < 8; i++) {
     				if( !(x-i < 1 || x-i > 8 || y-i < 1 || y-i > 8) ){
-    					if(s.getScacchiera().getScacchiera()[x-i-1][y-i-1].ifOccupata((y-i)*10+x-i)) { 
-    						if(s.getScacchiera().getScacchiera()[x-i-1][y-i-1].ifOccupata((y-i)*10+x-i)) {
+    					if(s.getScacchiera().ifOccupata((y-i)*10+x-i)) { 
+    						if(s.getScacchiera().ifOccupata((y-i)*10+x-i)) {
     							if(s.getScacchiera().getScacchiera()[x-i-1][y-i-1].getPezzo().white != white)
     								lista.add( ((y-i)*10+x-i) );	
     							
