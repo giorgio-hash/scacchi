@@ -1,5 +1,21 @@
 # scacchi
 
+<h1>aggiornamento 10/08 </h1>
+
+>corretti indici matrice scacchiera 
+<ul>
+<li>se hai riga e colonna di una data posizione, queste corrispondono a riga-1 e colonna-1 nella matrice.<br>Questo perchè la matrice scacchiera è una 8x8 con dimensioni da 0 a 7.
+<br><b>potrebbero essercene ancora in giro</b></li>
+</ul>
+
+>corretto calcolo spostamenti
+<ul>
+<li> nelle condizioni sono state escluse le "posizioni fantasma" multiple di 10, dato che la scacchiera non ha caselle con pos multiplo di 10.
+</ul>
+<hr>
+<hr>
+<hr>
+
 
 <h1>aggiornamento 9/08 , 2 ore e mezza di lavoro</h1>
 
