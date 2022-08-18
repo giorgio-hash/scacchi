@@ -15,7 +15,7 @@ public class Torre extends Pezzo {
     (che deve essere libera in s)
     da considerare l'arrocco ma non lo scacco*/
         
-        return true;
+    	return s.getScacchiera().ifOccupata(target)?false:listaSpostamentoPotenziale(s).contains(target);
     }
 
     @Override
@@ -24,7 +24,44 @@ public class Torre extends Pezzo {
     verso le quali il pezzo può muovere a partire dallo stato s.
     da considerare l'arrocco ma non lo scacco*/
     
-    return null;
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+		
+    	int posizione = s.getScacchiera().getPos(this);
+    	int x = posizione%10;
+    	int y = posizione/10;
+		
+		// up
+    	// up
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x < 1 || x > 8 || y+i < 1 || y+i > 8) )
+    						if(!s.getScacchiera().getScacchiera()[x-1][y+i-1].ifOccupata((y+i)*10+x))
+    							lista.add( ((y+i)*10+x) );		
+    					}
+		
+    			// down
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x < 1 || x > 8 || y-i < 1 || y-i > 8) )
+    					if(!s.getScacchiera().getScacchiera()[x-1][y-i-1].ifOccupata((y-i)*10+x))
+    							lista.add( ((y-i)*10+x) );	
+    					}
+		
+    			// left
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x-i < 1 || x-i > 8 || y < 1 || y > 8) ) {
+    					if(!s.getScacchiera().getScacchiera()[x-i-1][y-1].ifOccupata(y*10+x-i))
+    						lista.add( (y*10+x-i) );	
+    				}
+    			}
+    			
+    			// right
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x+i < 1 || x+i > 8 || y < 1 || y > 8) ) {
+    					if(!s.getScacchiera().getScacchiera()[x+i-1][y-1].ifOccupata(y*10+x+i))
+    						lista.add( (y*10+x+i) );	
+    				}
+    			}
+    			
+    			return lista;
     };
 
     @Override
@@ -33,7 +70,7 @@ public class Torre extends Pezzo {
     target deve essere libero oppure occupato da un pezzo avversario. 
     non considera lo scacco*/
         
-        return true;
+    	return listaAttacco(s).contains(target);
     }
 
     @Override
@@ -43,7 +80,63 @@ public class Torre extends Pezzo {
     le posizioni restituite devono corrispondere a una casa libera oppure occupata da un pezzo avversario. 
     sovrascriverlo nelle sottoclassi*/
 
-    return null;
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+		
+    	int posizione = s.getScacchiera().getPos(this);
+    	int x = posizione%10;
+    	int y = posizione/10;
+    	
+    	// up
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x < 1 || x > 8 || y+i < 1 || y+i > 8) )
+    						if(s.getScacchiera().getScacchiera()[x-1][y+i-1].ifOccupata((y+i)*10+x)) {
+    							if(s.getScacchiera().getScacchiera()[x-1][y+i-1].getPezzo().white != white)
+    								lista.add( ((y+i)*10+x) );	
+    							
+    							break;
+    						}
+    						
+    					}
+    			
+    			
+    			// down
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x < 1 || x > 8 || y-i < 1 || y-i > 8) )
+    					if(s.getScacchiera().getScacchiera()[x-1][y-i-1].ifOccupata((y-i)*10+x)) {
+    							if(s.getScacchiera().getScacchiera()[x-1][y-i-1].getPezzo().white != white)
+    								lista.add( ((y-i)*10+x) );	
+    							
+    							break;
+    						}
+    						
+    					}
+    			
+    			
+    			// left
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x-i < 1 || x-i > 8 || y < 1 || y > 8) ) {
+    					if(s.getScacchiera().getScacchiera()[x-i-1][y-1].ifOccupata(y*10+x-i)) {
+    						if(s.getScacchiera().getScacchiera()[x-i-1][y-1].getPezzo().white != white)
+    							lista.add( (y*10+x-i) );	
+    						
+    						break;
+    					}	
+    				}
+    			}
+    			
+    			// right
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x+i < 1 || x+i > 8 || y < 1 || y > 8) ) {
+    					if(s.getScacchiera().getScacchiera()[x+i-1][y-1].ifOccupata(y*10+x+i)) {
+    						if(s.getScacchiera().getScacchiera()[x+i-1][y-1].getPezzo().white != white)
+    							lista.add( (y*10+x+i) );	
+    						
+    						break;
+    					}	
+    				}
+    			}
+    	
+    			return lista;
     }
     
 }

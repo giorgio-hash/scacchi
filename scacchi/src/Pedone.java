@@ -18,24 +18,7 @@ public class Pedone extends Pezzo {
     (che deve essere libera in s)
     da considerare l'arrocco ma non lo scacco*/
   
-    	//VALUTARE ANCHE SE E' LA PRIMA MOSSA--> PEDONE PU0' FARE DUE PASSI IN AVANTI INVECE DI UNO NELLA PRIMA MOSSA
-    	int from = p.getPos();
-    	Scacchiera scacchiera = s.getScacchiera();
-    	//allora la posizione è libera ci posso andare con il pedone
-    	//distinzione giocatore bianco o nero 
-    	int giocatore = s.getGiocatore();
-    	int contatore = s.getContatore();
-    	//VALUTARE MOSSA NR.1--> due posizioni in avanti sono lo spostamento potenziale per un pedone
-    	//giocatore bianco
-    	if(giocatore == 1) {
-    		if(scacchiera.ifOccupata(target) == false && target == from + 1) { 
-    			return true;
-    	}else if(giocatore == 2){ //giocatore neri
-    		if(scacchiera.ifOccupata(target) == false && target == from - 1 ) { 
-        		return true;
-    	}}
-    	}
-    		return false;
+    	 return s.getScacchiera().ifOccupata(target)?false:listaSpostamentoPotenziale(s).contains(target);
     }
 
     @Override
@@ -43,14 +26,36 @@ public class Pedone extends Pezzo {
     /*restituisce un arraylist contenente tutte e sole le posizioni della scacchiera 
     verso le quali il pezzo può muovere a partire dallo stato s.
     da considerare l'arrocco ma non lo scacco*/
-    ArrayList<Integer> lista = new ArrayList<>();
-    	//fare i controlli ed inserire nell'arrayList;
+    
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+		
+    	int posizione = s.getScacchiera().getPos(this);
+    	int x = posizione%10;
+    	int y = posizione/10;
     	
+    	if(white) {
+			// forward
+    		if( !(x < 1 || x > 8 || y+1 < 1 || y+1 > 8) )
+    			if(!s.getScacchiera().getScacchiera()[x-1][y+1-1].ifOccupata((y+1)*10+x))
+    				lista.add(((y+1)*10+x) );
+    		
+    		if(s.getEnPassantB() && this.getNumMosse() == 0)
+    			lista.add(((y+2)*10+x) );
+			
+		}
+		else {
+			// forward
+			if( !(x < 1 || x > 8 || y-1 < 1 || y-1 > 8) )
+    			if(!s.getScacchiera().getScacchiera()[x-1][y-1-1].ifOccupata((y-1)*10+x))
+    				lista.add(((y-1)*10+x) );
+			
+			if(s.getEnPassantN() && this.getNumMosse() == 0)
+				lista.add(((y-2)*10+x) );
+			
+		}
+		
+		return lista;
     
-    
-    
-    
-    return lista;
     };
 
     @Override
@@ -58,25 +63,9 @@ public class Pedone extends Pezzo {
     /*true se e solo se nello stato s il pezzo pone sotto attacco la casa target
     target deve essere libero oppure occupato da un pezzo avversario. 
     non considera lo scacco*/
-        Scacchiera c = s.getScacchiera();
-        // il pedone pone in attacco solo se punta in avanti-obliquo
-        int from = p.getPos();
-        	int giocatore = s.getGiocatore();
-        	//se sono bianco, quindi se giocatore == 1
-        	Pezzo pezzoTarget = c.getPezzo(target);
-        	if(c.getColorePezzo(pezzoTarget) == true && giocatore == 2) {
-        		if((c.ifOccupata(target) == true)
-        				&& (target == ((pos-10)-1) || target == ((from+10)-1))) {
-    						return true;
-        			}
-        	}else if(c.getColorePezzo(pezzoTarget) == false && giocatore == 1){
-        	//se sono nero
-        		if((c.ifOccupata(target) == true && giocatore == 1) 
-        				&& (target == ((from-10)+1) || target == ((from+10)+1))) {
-            				return true;
-        		}
-        	}
-        return false;
+       
+    	 return listaAttacco(s).contains(target);
+    	 
     }
 
     @Override
@@ -85,8 +74,43 @@ public class Pedone extends Pezzo {
     sono sotto attacco da parte del pezzo nello stato s. 
     le posizioni restituite devono corrispondere a una casa libera oppure occupata da un pezzo avversario. 
     sovrascriverlo nelle sottoclassi*/
-    	ArrayList<Integer> lista = new ArrayList<>();
-    	//fare i controlli ed inserire nell'arrayList;
+    	
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+    	
+    	int posizione = s.getScacchiera().getPos(this);
+    	int x = posizione%10;
+    	int y = posizione/10;
+    	
+    	if(white) {
+			
+			
+    		if( !(x+1 < 1 || x+1 > 8 || y+1 < 1 || y+1 > 8) ) 
+				if(s.getScacchiera().getScacchiera()[x+1-1][y+1-1].ifOccupata((y+1)*10+x+1)) 
+					if(s.getScacchiera().getScacchiera()[x+1-1][y+1-1].getPezzo().white != white)
+						lista.add( ((y+1)*10+x+1) );	
+			
+			
+					if( !(x-1 < 1 || x-1 > 8 || y+1 < 1 || y+1 > 8) ) 
+						if(s.getScacchiera().getScacchiera()[x-1-1][y+1-1].ifOccupata((y+1)*10+x-1)) 
+							if(s.getScacchiera().getScacchiera()[x-1-1][y+1-1].getPezzo().white != white)
+								lista.add( ((y+1)*10+x-1) );	
+		}
+		else {
+			
+			if( !(x+1 < 1 || x+1 > 8 || y-1 < 1 || y-1 > 8) ) 
+				if(s.getScacchiera().getScacchiera()[x+1-1][y-1-1].ifOccupata((y-1)*10+x+1)) 
+					if(s.getScacchiera().getScacchiera()[x+1-1][y-1-1].getPezzo().white != white)
+						lista.add( ((y-1)*10+x+1) );	
+			
+			
+					if( !(x-1 < 1 || x-1 > 8 || y-1 < 1 || y-1 > 8) ) 
+						if(s.getScacchiera().getScacchiera()[x-1-1][y-1-1].ifOccupata((y-1)*10+x-1)) 
+							if(s.getScacchiera().getScacchiera()[x-1-1][y-1-1].getPezzo().white != white)
+								lista.add( ((y-1)*10+x-1) );
+			
+				
+		}
+    	
     	
     	return lista;
     }
@@ -94,5 +118,5 @@ public class Pedone extends Pezzo {
 	
     	
    
-    
+				
 }

@@ -22,31 +22,9 @@ public class Alfiere extends Pezzo {
     /*true: se il pezzo può muovere nello stato s dalla propria casa alla casa target 
     (che deve essere libera in s)
     da considerare l'arrocco ma non lo scacco*/
-      	int from = p.getPos();
-    	Scacchiera scacchiera = s.getScacchiera();
-    	//allora la posizione è libera ci posso andare con l'alfiere    	
-    	int giocatore = s.getGiocatorePM();
-    		//movimenti a sinistra obl. , destra obl., andando avanti e indietro quindi non solo in AVANZAMENTO
-    		if(scacchiera.ifOccupata(target) == false) {
-    			//bisogno di un ciclo per valutare i movimenti target possibili 
-    			for(int i = 1 ; i <= 7; i ++){
-   				  		int n = 10;
-   				  		if(target == (from - n) + i || target == (from + n) + i ){
-   				 			return true;
-   				 		}	
-   				  		n = n + 10;
-   				 }
-    			for(int i = 1 ; i <= 7; i ++){
-				  		int n = 10;
-				  		if(target == (from - n) - i || target == (from + n) - i){
-				 			return true;
-				 		}	
-				  		n = n + 10;
-				 }
-    			return false;
-    			}
+      	
     	
-        return false;
+        return s.getScacchiera().ifOccupata(target)?false:listaSpostamentoPotenziale(s).contains(target);
 }
 
     @Override
@@ -55,7 +33,47 @@ public class Alfiere extends Pezzo {
     verso le quali il pezzo può muovere a partire dallo stato s.
     da considerare l'arrocco ma non lo scacco*/
     
-    return null;
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+		
+    	int posizione = s.getScacchiera().getPos(this);
+    	int x = posizione%10;
+    	int y = posizione/10;
+    	
+		
+		// NE
+		for(int i = 1; i < 8; i++) 
+			if( !(x+i < 1 || x+i > 8 || y+i < 1 || y+i > 8) ){
+				if(!s.getScacchiera().getScacchiera()[x+i-1][y+i-1].ifOccupata((y+i)*10+x+i))
+					lista.add((y+i)*10+x+i);	
+			
+		}
+		
+		// NW
+		for(int i = 1; i < 8; i++) 
+			if( !(x-i < 1 || x-i > 8 || y+i < 1 || y+i > 8) ){
+				if(!s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) 
+					lista.add((y+i)*10+x-i);	
+			
+		}
+		
+		// SE
+		for(int i = 1; i < 8; i++) {
+			if( !(x+i < 1 || x+i > 8 || y-i < 1 || y-i > 8) ){
+				if(!s.getScacchiera().getScacchiera()[x+i-1][y-i-1].ifOccupata((y-i)*10+x+i)) 
+					lista.add((y-i)*10+x+i);	
+			}
+		}
+		
+		// SW
+		for(int i = 1; i < 8; i++) {
+			if( !(x-i < 1 || x-i > 8 || y-i < 1 || y-i > 8) ){
+				if(!s.getScacchiera().getScacchiera()[x-i-1][y-i-1].ifOccupata((y-i)*10+x-i)) 
+					lista.add((y-i)*10+x-i);
+			}
+		}
+		
+		return lista;
+    
     };
 
     @Override
@@ -63,49 +81,8 @@ public class Alfiere extends Pezzo {
     /*true se e solo se nello stato s il pezzo pone sotto attacco la casa target
     target deve essere libero oppure occupato da un pezzo avversario. 
     non considera lo scacco*/
-    	 Scacchiera c = s.getScacchiera();
-      	int giocatore = s.getGiocatorePM();
-      	Pezzo pezzoTarget = c.getPezzo(target);
-      	int from = p.getPos();
-      	//se il giocatore è il bianco e il pezzo target è il nero
-      	if(c.ifOccupata(target) == true) {
-      		if((c.getColorePezzo(pezzoTarget) == true && giocatore == 2)) {
-        			//bisogno di un ciclo per valutare i movimenti target possibili 
-        			for(int i = 1 ; i <= 7; i ++){
-       				  		int n = 10;
-       				  		if(target == (from - n) + i || target == (from + n) + i ){
-       				 			return true;
-       				 		}	
-       				  		n = n + 10;
-       				 }
-        			for(int i = 1 ; i <= 7; i ++){
-    				  		int n = 10;
-    				  		if(target == (from - n) - i || target == (from + n) - i){
-    				 			return true;
-    				 		}	
-    				  		n = n + 10;
-    				 }
-      	} else if(c.ifOccupata(target) == true){
-      		//se il giocatore è il nero e il pezzo target è il bianco
-      		if((c.getColorePezzo(pezzoTarget) == false && giocatore == 1 )) {
-      			for(int i = 1 ; i <= 7; i ++){
-				  		int n = 10;
-				  		if(target == (from - n) + i || target == (from + n) + i ){
-				 			return true;
-				 		}	
-				  		n = n + 10;
-				 }
-      			for(int i = 1 ; i <= 7; i ++){
-			  			int n = 10;
-			  			if(target == (from - n) - i || target == (from + n) - i){
-			  				return true;
-			 		}	
-			  			n = n + 10;
-      				}
-      			}
-      		}
-      	}
-      		return false;
+	    	 
+      		return listaAttacco(s).contains(target);
     }
 
     @Override
@@ -115,7 +92,69 @@ public class Alfiere extends Pezzo {
     le posizioni restituite devono corrispondere a una casa libera oppure occupata da un pezzo avversario. 
     sovrascriverlo nelle sottoclassi*/
 
-    return null;
+    	ArrayList<Integer> lista = new ArrayList<Integer>();
+		
+    	int posizione = s.getScacchiera().getPos(this);
+    	int x = posizione%10;
+    	int y = posizione/10;
+    	
+    	
+    	// NE
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x+i < 1 || x+i > 8 || y+i < 1 || y+i > 8) ){
+    					if(s.getScacchiera().getScacchiera()[x+i-1][y+i-1].ifOccupata((y+i)*10+x+i)) { 
+    						if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) {
+    							if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].getPezzo().white != white)
+    								lista.add( ((y+i)*10+x-i) );	
+    							
+    							break;
+    						}
+    				}
+    			}
+    				}
+    			
+    			// NW
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x-i < 1 || x-i > 8 || y+i < 1 || y+i > 8) ){
+    					if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) { 
+    						if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].ifOccupata((y+i)*10+x-i)) {
+    							if(s.getScacchiera().getScacchiera()[x-i-1][y+i-1].getPezzo().white != white)
+    								lista.add( ((y+i)*10+x-i) );	
+    							
+    							break;
+    						}
+    				}
+    			}
+    			}
+    			
+    			// SE
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x+i < 1 || x+i > 8 || y-i < 1 || y-i > 8) ){
+    					if(s.getScacchiera().getScacchiera()[x+i-1][y-i-1].ifOccupata((y-i)*10+x+i)) { 
+    						if(s.getScacchiera().getScacchiera()[x+i-1][y-i-1].ifOccupata((y-i)*10+x+i)) {
+    							if(s.getScacchiera().getScacchiera()[x+i-1][y-i-1].getPezzo().white != white)
+    								lista.add( ((y-i)*10+x+i) );	
+    							
+    							break;
+    						}
+    				}
+    			}
+    			}
+    			
+    			// SW
+    			for(int i = 1; i < 8; i++) {
+    				if( !(x-i < 1 || x-i > 8 || y-i < 1 || y-i > 8) ){
+    					if(s.getScacchiera().getScacchiera()[x-i-1][y-i-1].ifOccupata((y-i)*10+x-i)) { 
+    						if(s.getScacchiera().getScacchiera()[x-i-1][y-i-1].ifOccupata((y-i)*10+x-i)) {
+    							if(s.getScacchiera().getScacchiera()[x-i-1][y-i-1].getPezzo().white != white)
+    								lista.add( ((y-i)*10+x-i) );	
+    							
+    							break;
+    						}
+    				}
+    			}
+    			}
+    return lista;
     }
 
 	

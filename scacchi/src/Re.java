@@ -122,4 +122,7 @@ public class Re extends Pezzo {
         return lista;
     }
     
+    
+    
+    
 }

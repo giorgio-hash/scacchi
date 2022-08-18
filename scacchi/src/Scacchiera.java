@@ -85,16 +85,57 @@ public class Scacchiera {
     	return scacchiera[rigaf-1][colonnaf-1].getPezzo();
     }
 
+    /**
+     * ritorna la posizione in base al pezzo cercato
+     * 
+     * @param p
+     * @return
+     */
     public int getPos (Pezzo p) {
     //posizione del pezzo. 0 se il pezzo non c'è
     	
     	for(int i=0;i<8;i++)
     		for(int j=0; j<8;j++)
-    			if(scacchiera[i][j].getPezzo().mostraLettera() == p.mostraLettera() )
+    			if(scacchiera[i][j].getPezzo().getId() == p.getId())
     				return scacchiera[i][j].getPos();
     	return 0;
     }
     
+    
+    /**
+     * restituisce la posizione del re
+     * 
+     */
+    public int locateRe (boolean colore) {
+        //posizione del pezzo. 0 se il pezzo non c'è
+        	
+        	for(int i=0;i<8;i++)
+        		for(int j=0; j<8;j++)
+        			if(scacchiera[i][j].getPezzo().mostraLettera() == (colore?'K':'k'))
+        				return scacchiera[i][j].getPos();
+        	return 0;
+        }
+    
+    /**
+     * ritorna la casella in base alla posizione
+     * 
+     * @return
+     */
+    public Caselle getCasella(int pos) {
+    	for(int i=0;i<8;i++)
+    		for(int j=0; j<8;j++)
+    			if(scacchiera[i][j].getPos() == pos)
+    				return scacchiera[i][j];
+    	return null;
+    }
+    
+    public Caselle setCasella(Caselle casella) {
+    	for(int i=0;i<8;i++)
+    		for(int j=0; j<8;j++)
+    			if(scacchiera[i][j].getPos() == casella.getPos())
+    				return scacchiera[i][j] = casella;
+    	return null;
+    }
 
     public Stato getStato (int pos) {
     //stato di una casella

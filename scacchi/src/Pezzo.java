@@ -8,12 +8,17 @@ public abstract class Pezzo {
    
     private char lettera;
     private int numMosse;
+    private int id;
+    
+    private static int idgen = 0;
+    
     
 
     public Pezzo (boolean white,char lettera) {
         this.white=white;
         this.lettera = lettera;
         numMosse = 0;
+        id = idgen++;
     }
 
     
@@ -81,6 +86,17 @@ public abstract class Pezzo {
     	return lettera;
     }
     
+    public int getId() {
+    	
+    	return id;
+    	
+    }
+    
+    public void registraMossa() {
+    	
+    	numMosse++;
+    	
+    }
     
     /**
      * quante volte il pezzo è stato mosso
