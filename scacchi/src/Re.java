@@ -9,7 +9,14 @@ public class Re extends Pezzo {
 
     
     
-    @Override
+    public Re(Pezzo p) {
+		// TODO Auto-generated constructor stub
+    	super(p.white,p.mostraLettera());
+	}
+
+
+
+	@Override
     boolean spostamentoPotenziale (Stato s, int target){
     /*true: se il pezzo può muovere nello stato s dalla propria casa alla casa target 
     (che deve essere libera in s)
@@ -50,11 +57,18 @@ public class Re extends Pezzo {
     	
     	int[] offsets = {-10,10,1,-1,-9,11,-11,9};
     	
-    	for(int i=0; i<offsets.length;i++)
-    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 && (posizione + offsets[i])%10 != 0) {
+    	int x,y;
+    	for(int i=0; i<offsets.length;i++) {
+    		
+    		x = (posizione + offsets[i]) % 10;
+    		y = (posizione + offsets[i]) / 10;
+    		if( (x>0 && x<9) && (y>0 && y<9) ) {
     			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])))
-    				lista.add((posizione + offsets[i]));	
+    				lista.add((posizione + offsets[i]));
+    			
     			}
+    			
+    	}
     		
     
     	if((white?s.getArroccoBC():s.getArroccoNC()) && super.getNumMosse() == 0)//verifica l'arrocco corto
@@ -111,13 +125,23 @@ public class Re extends Pezzo {
     	*/
     	
     	int[] offsets = {-10,10,1,-1,-9,11,-11,9};
-    	
-    	for(int i=0; i<offsets.length;i++)
-    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 && (posizione + offsets[i])%10 != 0) {
-    			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])) || s.sottoAttacco(posizione + offsets[i], white))  //se libera oppure occupata da pezzo avversario
+    	int x,y;
+    	for(int i=0; i<offsets.length;i++) {
+    		x = (posizione + offsets[i]) % 10;
+    		y = (posizione + offsets[i]) / 10;
+    		if( (x>0 && x<9) && (y>0 && y<9) ) {
+    			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])))  //se libera  
     				lista.add((posizione + offsets[i]));	
+    			else {
+    				
+    				if(s.getScacchiera().getCasella(posizione+ offsets[i]).getColorePedina() != white)//se occupata da pezzo avversario
+    					lista.add((posizione + offsets[i]));
+    				
+    				}
+    			
     			}
     		
+    	}
     
         return lista;
     }

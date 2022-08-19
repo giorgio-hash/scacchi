@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Scacchiera {
+public class Scacchiera implements Cloneable{
     
     private final int dimensione = 8;
     private Caselle [][] scacchiera;//le caselle vanno da [0][0] a [7][7]
@@ -24,7 +24,36 @@ public class Scacchiera {
     }
 
     
-    private void creaScacchiera(){
+    public Scacchiera(Scacchiera scacchiera2) {
+		// TODO Auto-generated constructor stub
+    	creaScacchiera();
+    	Pezzo p;
+    	
+    	for(int i=0; i<dimensione; i++)
+    		for(int j=0; j<dimensione; j++)
+    			if(scacchiera2.getScacchiera()[i][j].getPezzo() != null) {
+    				p = scacchiera2.getScacchiera()[i][j].getPezzo();
+    				
+    				if(p instanceof Alfiere)
+    					scacchiera[i][j].inserisciPedina(new Alfiere(p));
+    				if(p instanceof Cavallo)
+    					scacchiera[i][j].inserisciPedina(new Cavallo(p));
+    				if(p instanceof Pedone)
+    					scacchiera[i][j].inserisciPedina(new Pedone(p));
+    				if(p instanceof Re)
+    					scacchiera[i][j].inserisciPedina(new Re(p));
+    				if(p instanceof Regina)
+    					scacchiera[i][j].inserisciPedina(new Regina(p));
+    				if(p instanceof Torre)
+    					scacchiera[i][j].inserisciPedina(new Torre(p));
+    				
+    			}
+    			
+    	
+	}
+
+
+	private void creaScacchiera(){
     	
     	scacchiera = new Caselle[dimensione][dimensione];//le caselle vanno da [0][0] a [7][7]
 
@@ -116,8 +145,9 @@ public class Scacchiera {
     	
     	for(int i=0;i<8;i++)
     		for(int j=0; j<8;j++)
-    			if(scacchiera[i][j].getPezzo().getId() == p.getId())
-    				return scacchiera[i][j].getPos();
+    			if(scacchiera[i][j].getPezzo() != null)
+    				if(scacchiera[i][j].getPezzo().getId() == p.getId())
+    					return scacchiera[i][j].getPos();
     	return 0;
     }
     
@@ -182,7 +212,7 @@ public class Scacchiera {
     public boolean ifOccupata(int pos) {
     	int rigac = pos%10;
     	int colonnac = pos/10;
-    	if(this.scacchiera[rigac-1][colonnac-1] == null) {
+    	if(this.scacchiera[rigac-1][colonnac-1].getPezzo() == null) {
     		return false;
     	}else {
     		return true;
@@ -208,5 +238,7 @@ public class Scacchiera {
     	
     	return giocatorePM==1?8:1;
     }
+    
+      
    
 }

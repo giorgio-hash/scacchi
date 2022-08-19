@@ -1,5 +1,5 @@
 
-public class Caselle{
+public class Caselle implements Cloneable{
 
     private int pos;
     private boolean coloreCasella;
@@ -47,5 +47,6 @@ public class Caselle{
     public String toString() {
     	return coloreCasella + " " + pos;
     }
-
+    
+    
 }

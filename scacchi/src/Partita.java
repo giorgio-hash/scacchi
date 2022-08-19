@@ -6,11 +6,11 @@ public class Partita {
     private Stato s;
 	private ArrayList<Mossa> mosse;
 	private String esito;
-	private Giocatore giocatore;
+
 	
     public Partita () { 
     //costruttore che crea la Partita senza mosse
-       s = new Stato(new Scacchiera(),1,false,false,false,false,false,false);
+    	s = new Stato(new Scacchiera(),1,true,true,true,true,true,true);
        this.mosse = new ArrayList<Mossa>();
        this.esito = "in corso";
        
@@ -175,10 +175,6 @@ public class Partita {
     public ArrayList<Mossa> getMosse() {
     	return mosse;
     }
-    
-    public Giocatore getGiocatore() {
-    	return giocatore;
-    }
-    
+   
     
 }

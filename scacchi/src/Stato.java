@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 
 
-public class Stato {
+public class Stato{
 /*stato del gioco: scacchiera - giocatore che deve fare la prima mossa - arrocco bianco - arrocco nero
 - cattura en passant bianco - cattura en passant nero*/
 	
@@ -92,7 +92,7 @@ public class Stato {
     }
 
     public Stato (Stato stato) {
-        this.scacchiera=stato.getScacchiera();
+        this.scacchiera=new Scacchiera(stato.getScacchiera());
         this.giocatorePM=stato.getGiocatorePM();
         this.arroccoBL=stato.getArroccoBL();
         this.arroccoBC=stato.getArroccoBC();
@@ -153,8 +153,8 @@ public class Stato {
     		for(int j=0; j<8; j++) {
     			
     			pezzo = scacchiera.getScacchiera()[i][j].getPezzo();
+    			if(pezzo != null)
     			if(pezzo.white == white) {
-    				
     				
     				//2. valuta se almeno uno degli avversari può attaccare la casella
     				if(pezzo.attacco(this, pos))
@@ -273,8 +273,9 @@ public class Stato {
     3=torre
      * @return <i>Stato</i> se i parametri sono corretti
      * <br> <i>null</i> se ci sono errori nei parametri
+     * @throws CloneNotSupportedException 
      */
-    Stato simulaSpostamentoOCattura (int from, int to, int promozione) {
+    Stato simulaSpostamentoOCattura (int from, int to, int promozione){
     	/*che restituisce un nuovo stato risultante dalla mossa del giocatore di turno dalla casa from alla casa to, se
         --> nella casa from è presente un pezzo del giocatore individuato dal parametro white
         --> tale mossa rientra tra gli spostamenti potenziali del pezzo in questione, oppure è diretta verso una casa, sotto attacco dal pezzo in questione, che contiene un pezzo del giocatore avversario.
@@ -350,14 +351,18 @@ public class Stato {
     	int rigat = to%10;
     	int colonnat = to/10;
     	
-    	Pezzo pezzo = scacchiera.getScacchiera()[rigaf-1][colonnaf-1].getPezzo();
     	
-    	if(pezzo == null || scacchiera.getScacchiera()[rigaf-1][colonnaf-1].getColorePedina() != (giocatorePM==1?true:false))
+    	
+    	Pezzo pezzo = scacchiera.getPezzo(from);
+    	
+    	if(pezzo == null || pezzo.white != (giocatorePM==1?true:false))
     		return null; //se la casella from non ha pezzo o non ha un pezzo del giocatore selezionato
     	
     	
     	if(pezzo.spostamentoPotenziale(this, to) || pezzo.attacco(this, to)) {
     		
+    		
+    		System.out.println("************simulazione*********");
     		Stato simulato = new Stato(this); //stiamo simulando! creo una copia dello stato attuale
     		
     		Caselle casella;
@@ -400,7 +405,7 @@ public class Stato {
     				}
     		}
     		
-    		
+    		System.out.println("************fine simulazione*********");
     		return simulato;
     	}
     	
@@ -416,6 +421,7 @@ public class Stato {
     Stato simulaSpostamentoOCattura (int from, int to) {
     //richiama simulaSpostamentoOCattura (from, to, 0)
         return simulaSpostamentoOCattura (from, to, 0);
+		
     }
 
     boolean mossaValida (int from, int to, int promozione) {
@@ -426,13 +432,12 @@ public class Stato {
     re si trovi in una situazione di scacco (ovvero si trovi in una casa sotto attacco da parte di un pezzo del
     giocatore avversario).*/
     	
-    	boolean esito = false;
-    	
-        if (simulaSpostamentoOCattura (from, to, promozione) != null) {
-        	Stato ris = simulaSpostamentoOCattura (from, to, promozione);
-        		if(ris.scacco()) 
-        			esito = true;
-        }
+    	boolean esito = true;
+    	Stato ris = simulaSpostamentoOCattura (from, to, promozione);
+		if (ris != null) {
+        	if(ris.scacco()) //se la mossa ha provocato uno scacco per l'attuale giocatore
+        		esito = false;
+		}
         		
         		
         	return esito;
@@ -461,7 +466,7 @@ public class Stato {
         	int rigat = to%10;
         	int colonnat = to/10;
         	
-        	Pezzo pezzo = scacchiera.getScacchiera()[rigaf-1][colonnaf-1].getPezzo();
+        	Pezzo pezzo = scacchiera.getPezzo(from);
         	
         	pezzo.registraMossa();//aumenta di 1 il contatore delle mosse del pezzo
         	
@@ -552,6 +557,8 @@ public class Stato {
     		
     	return false;
     }
-
+    
+    
+   
     } 
   

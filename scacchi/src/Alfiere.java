@@ -17,7 +17,14 @@ public class Alfiere extends Pezzo {
     
     //MANCA ARROCCO E POSIZIONE TRA I PIEDI(SE DEVO ANDARE IN TARGET MA DI MEZZO C'E' UN PEZZO NON CI POSSO ANDARE!)
     
-    @Override
+    public Alfiere(Pezzo p) {
+		// TODO Auto-generated constructor stub
+    	super(p.white,p.mostraLettera());
+	}
+
+
+
+	@Override
     boolean spostamentoPotenziale (Stato s, int target){
     /*true: se il pezzo può muovere nello stato s dalla propria casa alla casa target 
     (che deve essere libera in s)

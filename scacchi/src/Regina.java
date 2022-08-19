@@ -9,7 +9,14 @@ public class Regina extends Pezzo {
 
  
 
-    @Override
+    public Regina(Pezzo p) {
+		// TODO Auto-generated constructor stub
+    	super(p.white,p.mostraLettera());
+	}
+
+
+
+	@Override
     boolean spostamentoPotenziale (Stato s, int target){
     /*true: se il pezzo può muovere nello stato s dalla propria casa alla casa target 
     (che deve essere libera in s)

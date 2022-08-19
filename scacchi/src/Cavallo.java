@@ -13,7 +13,14 @@ public class Cavallo extends Pezzo {
 
     //MANCA ARROCCO E POSIZIONE TRA I PIEDI(SE DEVO ANDARE IN TARGET MA DI MEZZO C'E' UN PEZZO NON CI POSSO ANDARE!)
     
-    @Override
+    public Cavallo(Pezzo p) {
+		// TODO Auto-generated constructor stub
+    	super(p.white,p.mostraLettera());
+	}
+
+
+
+	@Override
     boolean spostamentoPotenziale (Stato s, int target){
     /*/*true: se il pezzo pu√≤ muovere nello stato s dalla propria casa alla casa target 
     (che deve essere libera in s)
@@ -80,12 +87,18 @@ public class Cavallo extends Pezzo {
     	
     	//				 so	 no	 so	 se se ne se no
     	int[] offsets = {-21,-19,-12,8,19,21,12,-8};
-    	
-    	for(int i=0; i<offsets.length;i++)
-    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 && (posizione + offsets[i])%10 != 0) {
+    	int x,y;
+    	for(int i=0; i<offsets.length;i++) {
+    		
+    		x = (posizione + offsets[i]) % 10;
+    		y = (posizione + offsets[i]) / 10;
+    		if( (x>0 && x<9) && (y>0 && y<9) ) {
     			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])))
-    				lista.add((posizione + offsets[i]));	
+    				lista.add((posizione + offsets[i]));
+    			
     			}
+    			
+    	}
     		
     	
     	int c_from = posizione / 10;
@@ -227,15 +240,26 @@ public class Cavallo extends Pezzo {
     	le caselle vanno da 11 a 88
     	*/
     	
-    	//				 so	 no	 so	 se se ne se no
+    	//				 so	 no	 so	 se se ne ne no
     	int[] offsets = {-21,-19,-12,8,19,21,12,-8};
-    	
-    	for(int i=0; i<offsets.length;i++)
-    		if( (posizione + offsets[i]) >10 && (posizione + offsets[i]) <89 && (posizione + offsets[i])%10 != 0 ) {
-    			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])) || s.sottoAttacco(posizione + offsets[i], white))
-    				lista.add((posizione + offsets[i]));	
-    			}
+    	int x,y;
+    	for(int i=0; i<offsets.length;i++) {
     		
+    		x = (posizione + offsets[i]) % 10;
+    		y = (posizione + offsets[i]) / 10;
+    		if( (x>0 && x<9) && (y>0 && y<9) ) {
+    			if(!s.getScacchiera().ifOccupata((posizione + offsets[i])))
+    				lista.add((posizione + offsets[i]));
+    			else {
+    				
+    				if(s.getScacchiera().getCasella(posizione+ offsets[i]).getColorePedina() != white)//se occupata da pezzo avversario
+    					lista.add((posizione + offsets[i]));
+    				
+    				}
+    			
+    			}
+    			
+    	}
     	
     	int c_from = posizione / 10;
     	int r_from = posizione % 10;
@@ -243,7 +267,9 @@ public class Cavallo extends Pezzo {
     	int c_to = 0;
     	int r_to = 0;
     	
-    	for(int i=0; i<offsets.length; i++) {
+    	ArrayList<Integer> listaeliminati = new ArrayList<Integer>();
+    	
+    	for(int i=0; i<lista.size(); i++) {
     		
     		target = lista.get(i);
     		c_to = target / 10;
@@ -259,7 +285,7 @@ public class Cavallo extends Pezzo {
     							break;//se le due caselle sopra la posizione iniziale sono libere, la mossa Ë legale
     						
     						//altrimenti la mossa non Ë legale: elimina il target
-    						lista.remove(i);
+    						listaeliminati.add(target);
     					break;
     		
     				case -2: //sud
@@ -270,7 +296,7 @@ public class Cavallo extends Pezzo {
 								break;//se le due caselle sotto la posizione iniziale sono libere, la mossa Ë legale
 							
 							//altrimenti la mossa non Ë legale: elimina il target
-							lista.remove(i);
+							listaeliminati.add(target);
 						break;
     					
 						
@@ -285,7 +311,7 @@ public class Cavallo extends Pezzo {
         							break;//se le due caselle a dx della posizione iniziale sono libere, la mossa Ë legale
         						
         						//altrimenti la mossa non Ë legale: elimina il target
-        						lista.remove(i);
+        						listaeliminati.add(target);
         					break;
         					
     						case -2: //ovest
@@ -296,7 +322,7 @@ public class Cavallo extends Pezzo {
         							break;//se le due caselle a sx della posizione iniziale sono libere, la mossa Ë legale
         						
         						//altrimenti la mossa non Ë legale: elimina il target
-        						lista.remove(i);
+        						listaeliminati.add(target);
         					break;
     					
         					default:
@@ -305,6 +331,9 @@ public class Cavallo extends Pezzo {
     		
     	}
     
+    	for(int i=0; i<listaeliminati.size();i++)
+    		if(lista.contains(listaeliminati.get(i)))
+    			lista.remove(listaeliminati.get(i));
     	
         return lista;
     }
