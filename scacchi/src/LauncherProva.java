@@ -17,12 +17,19 @@ public class LauncherProva {
 		
 		System.out.println(selezionato.listaSpostamentoPotenziale(p.getStato()));
 		
-		Stato s = p.getStato();
-		s.eseguiMossa(62, 64);
 		
-		p.setStato(s);
+		try {
+			p.eseguiMossa(62, 64);
+		} catch (EccezioneMossa e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
 		
 		System.out.println(p.getStato().getScacchiera().toString());
+		
+		System.out.println("\nora è il turno di: " + p.getStato().getGiocatorePM());
 	}
 
 }
