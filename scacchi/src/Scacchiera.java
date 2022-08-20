@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Scacchiera implements Cloneable{
+public class Scacchiera{
     
     private final int dimensione = 8;
     private Caselle [][] scacchiera;//le caselle vanno da [0][0] a [7][7]

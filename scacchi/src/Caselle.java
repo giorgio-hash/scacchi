@@ -1,5 +1,5 @@
 
-public class Caselle implements Cloneable{
+public class Caselle{
 
     private int pos;
     private boolean coloreCasella;

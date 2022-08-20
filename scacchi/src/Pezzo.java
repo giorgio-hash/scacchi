@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 
-public abstract class Pezzo implements Cloneable{
+public abstract class Pezzo{
 //rappresenta i pezzi posizionabili sulla scacchiera
     
     protected boolean white;
