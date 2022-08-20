@@ -236,6 +236,7 @@ public class Stato{
     		for(int j=0; j<8; j++) {
     			
     			pezzo = scacchiera.getScacchiera()[i][j].getPezzo();
+    			if(pezzo != null)
     			if(pezzo.white == giocatore) {
     				
     				pezzi.add(pezzo);

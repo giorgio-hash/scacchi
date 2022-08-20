@@ -107,7 +107,9 @@ public class Cavallo extends Pezzo {
     	int c_to = 0;
     	int r_to = 0;
     	
-    	for(int i=0; i<offsets.length; i++) {
+    	ArrayList<Integer> listaeliminati = new ArrayList<Integer>();
+    	
+    	for(int i=0; i<lista.size(); i++) {
     		
     		target = lista.get(i);
     		c_to = target / 10;
@@ -123,7 +125,7 @@ public class Cavallo extends Pezzo {
     							break;//se le due caselle sopra la posizione iniziale sono libere, la mossa è legale
     						
     						//altrimenti la mossa non è legale: elimina il target
-    						lista.remove(i);
+    						listaeliminati.add(target);
     					break;
     		
     				case -2: //sud
@@ -134,7 +136,7 @@ public class Cavallo extends Pezzo {
 								break;//se le due caselle sotto la posizione iniziale sono libere, la mossa è legale
 							
 							//altrimenti la mossa non è legale: elimina il target
-							lista.remove(i);
+							listaeliminati.add(target);
 						break;
     					
 						
@@ -149,7 +151,7 @@ public class Cavallo extends Pezzo {
         							break;//se le due caselle a dx della posizione iniziale sono libere, la mossa è legale
         						
         						//altrimenti la mossa non è legale: elimina il target
-        						lista.remove(i);
+        						listaeliminati.add(target);
         					break;
         					
     						case -2: //ovest
@@ -160,7 +162,7 @@ public class Cavallo extends Pezzo {
         							break;//se le due caselle a sx della posizione iniziale sono libere, la mossa è legale
         						
         						//altrimenti la mossa non è legale: elimina il target
-        						lista.remove(i);
+        						listaeliminati.add(target);
         					break;
     					
         					default:
@@ -169,6 +171,11 @@ public class Cavallo extends Pezzo {
     		
     	}
     
+    	
+    	
+    	for(int i=0; i<listaeliminati.size();i++)
+    		if(lista.contains(listaeliminati.get(i)))
+    			lista.remove(listaeliminati.get(i));
     	
         return lista;
     

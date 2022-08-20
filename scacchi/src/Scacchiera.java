@@ -161,6 +161,7 @@ public class Scacchiera implements Cloneable{
         	
         	for(int i=0;i<8;i++)
         		for(int j=0; j<8;j++)
+        			if(scacchiera[i][j].getPezzo() != null)
         			if(scacchiera[i][j].getPezzo().mostraLettera() == (colore?'R':'r'))
         				return scacchiera[i][j].getPos();
         	return 0;

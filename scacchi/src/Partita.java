@@ -37,11 +37,13 @@ public class Partita {
     	//MANCANO STALLO E SCACCO MATTO
     	if(esito.equals("in corso")) {
     		
+    		Stato simulato = new Stato(s);//copia dello stato precedente
+    		
     		if(s.eseguiMossa(from, to, promozione)) {
     		
     			mosse.add(new Mossa(from,to));
     			
-    			if( s.isArrocco(from, to)) {
+    			if( simulato.isArrocco(from, to)) {
         			
         			if(to < from) {
         				//arrocco a sinistra
@@ -94,9 +96,10 @@ public class Partita {
         			
         		}
     			
+    			
     			//passa il turno al prossimo giocatore
-    			s.setGiocatorePM(s.getGiocatorePM()==1?2:1);
-    		
+    				s.setGiocatorePM(s.getGiocatorePM()==1?2:1);
+    			
     			if(s.scaccoMatto()) {//se il successivo giocatore è scacco matto, allora il primo giocatore ha vinto
     				esito = "vittoria " + (s.getGiocatorePM()==1?"neri!":"bianchi!");
     			}
