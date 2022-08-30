@@ -25,7 +25,7 @@ public class LauncherProva {
 			e.printStackTrace();
 		}
 		
-	
+		//reset
 		
 		System.out.println(p.getStato().getScacchiera().toString());
 		

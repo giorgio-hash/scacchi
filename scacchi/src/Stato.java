@@ -433,11 +433,11 @@ public class Stato{
     re si trovi in una situazione di scacco (ovvero si trovi in una casa sotto attacco da parte di un pezzo del
     giocatore avversario).*/
     	
-    	boolean esito = true;
+    	boolean esito = false;
     	Stato ris = simulaSpostamentoOCattura (from, to, promozione);
 		if (ris != null) {
-        	if(ris.scacco()) //se la mossa ha provocato uno scacco per l'attuale giocatore
-        		esito = false;
+        	if(!ris.scacco()) //se la mossa non ha provocato uno scacco per l'attuale giocatore
+        		esito = true;
 		}
         		
         		
