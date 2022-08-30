@@ -46,7 +46,7 @@ public class Pedone extends Pezzo {
     			if(!s.getScacchiera().ifOccupata((y)*10+x+1))
     				lista.add(((y)*10+x+1) );
     		
-    		if(s.getEnPassantB() && this.getNumMosse() == 0)
+    		if(super.getDueSpazi() && this.getNumMosse() == 0)
     			lista.add(((y)*10+x+2) );
 			
 		}
@@ -56,7 +56,7 @@ public class Pedone extends Pezzo {
     			if(!s.getScacchiera().ifOccupata((y)*10+x-1))
     				lista.add(((y)*10+x-1) );
 			
-			if(s.getEnPassantN() && this.getNumMosse() == 0)
+			if(super.getDueSpazi() && this.getNumMosse() == 0)
 				lista.add(((y)*10+x-2) );
 			
 		}
@@ -100,7 +100,7 @@ public class Pedone extends Pezzo {
 					if( !(x+1 < 1 || x+1 > 8 || y-1 < 1 || y-1 > 8) ) 
 						if(s.getScacchiera().ifOccupata((y-1)*10+x+1)) 
 							if(s.getScacchiera().getScacchiera()[x+1-1][y-1-1].getPezzo().white != white)
-								lista.add( ((y-1)*10+x+1) );	
+								lista.add( ((y-1)*10+x+1) );
 		}
 		else {
 			
@@ -118,6 +118,20 @@ public class Pedone extends Pezzo {
 				
 		}
     	
+    	if(super.potenzaleEnPassant() && (white?s.getEnPassantB() : s.getEnPassantN()) ) {
+    		
+    		if( !(x < 1 || x > 8 || y+1 < 1 || y+1 > 8) )
+    			if(s.getScacchiera().ifOccupata((y+1)*10+x))
+    				if(s.getScacchiera().getScacchiera()[x-1][y+1-1].getPezzo().white != white)
+    					lista.add( ((y+1)*10+x) );
+    				
+    		if( !(x < 1 || x > 8 || y-1 < 1 || y-1 > 8) )
+    			if(s.getScacchiera().ifOccupata((y-1)*10+x))
+    				if(s.getScacchiera().getScacchiera()[x-1][y-1-1].getPezzo().white != white)
+    					lista.add( ((y-1)*10+x) );
+    		
+    		
+    	}
     	
     	return lista;
     }

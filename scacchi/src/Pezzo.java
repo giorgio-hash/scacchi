@@ -10,6 +10,9 @@ public abstract class Pezzo{
     private int numMosse;
     private int id;
     
+    private boolean duespazi;
+    private boolean potenzialeEnPassant;
+    
     private static int idgen = 0;
     
     
@@ -19,6 +22,14 @@ public abstract class Pezzo{
         this.lettera = lettera;
         numMosse = 0;
         id = idgen++;
+        
+        if(lettera == 'p' || lettera == 'P') {
+        	duespazi = true;
+        }else
+        	duespazi = false;
+        
+        potenzialeEnPassant = false;
+        	
     }
 
     
@@ -108,6 +119,46 @@ public abstract class Pezzo{
 
     public String toString() {
     	return id+":"+lettera;
+    }
+    
+    
+    /**
+     * serve solo al pedone: 
+     * disattiva la possibilità di muoversi di due caselle. <br> 
+     * Allo stesso tempo, rendi possibile poter attuare l'enPassant
+     * 
+     */
+    public void unsetDueSpazi() {
+    	if(duespazi)
+        	potenzialeEnPassant = true;
+    	
+    	duespazi = false;
+    	
+    	
+    }
+    
+    /**
+     * serve solo al pedone
+     * 
+     */
+    public boolean getDueSpazi() {
+    	return duespazi;
+    }
+    
+    /**
+     *solo pedone: il pedone non può più attuare l'enpassant
+     * @return
+     */
+    public void unsetEnPassant() {
+    	potenzialeEnPassant = false;
+    }
+    
+    /**
+     * solo pedone: verifica se il pedone può fare l'enpassant
+     * @return
+     */
+    public boolean potenzaleEnPassant() {
+    	return potenzialeEnPassant;
     }
     
     

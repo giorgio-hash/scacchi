@@ -471,47 +471,70 @@ public class Stato{
         	
         	pezzo.registraMossa();//aumenta di 1 il contatore delle mosse del pezzo
         	
-        	Caselle casella;
-    		
-    		casella = this.getScacchiera().getScacchiera()[rigaf-1][colonnaf-1]; //rimuovo dal from
-    		casella.togliPedina();
-    		this.getScacchiera().setCasella(casella);
-    		casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1]; //aggiungo al to
-    		casella.inserisciPedina(pezzo);
-    		this.getScacchiera().setCasella(casella);
     		
     		esito = true;
     		
     		if(pezzo.mostraLettera() == 'P' || pezzo.mostraLettera() == 'p') {
-    			if(rigat == this.getScacchiera().getTraversa(giocatorePM))
+    			
+    			
+    			if(rigat == this.getScacchiera().getTraversa(giocatorePM)) 
     				switch(promozione) {
     				
 					case 0://regina
-						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
-						casella.inserisciPedina(new Regina(giocatorePM==1?true:false));
-						this.getScacchiera().setCasella(casella);
+						pezzo = new Regina(giocatorePM==1?true:false);
 						
 						break;
 						
 					case 1://cavallo
-						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
-						casella.inserisciPedina(new Cavallo(giocatorePM==1?true:false));
-						this.getScacchiera().setCasella(casella);
+						pezzo = new Cavallo(giocatorePM==1?true:false);
 						break;
 						
 					case 2://alfiere
-						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
-						casella.inserisciPedina(new Alfiere(giocatorePM==1?true:false));
-						this.getScacchiera().setCasella(casella);
+						pezzo = new Alfiere(giocatorePM==1?true:false);
 						break;
 						
 					case 3://torre
-						casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1];
-						casella.inserisciPedina(new Torre(giocatorePM==1?true:false));
-						this.getScacchiera().setCasella(casella);
+						pezzo = new Torre(giocatorePM==1?true:false);
 						break;
-				}
+    				}
+    			
+    			
+    			if(isPedoneDueSpazi(from,to)) {
+    				
+    				
+    				pezzo.unsetDueSpazi();
+    				
+    				
+    			}
+    			else {
+    			
+    				if(isEnPassant(from,to)) {
+    					
+    					if(pezzo.white && this.enPassantB)
+    						enPassantB = false;
+    					
+    					if(!pezzo.white && this.enPassantN)
+    						enPassantN = false;
+    					
+    				}
+    				
+    				if(pezzo.potenzaleEnPassant())
+    					pezzo.unsetEnPassant();
+    				
+    			}
+    			
+    			
+    				
     		}
+    		
+    		Caselle casella;
+    		casella = this.getScacchiera().getScacchiera()[rigaf-1][colonnaf-1]; //rimuovo dal from
+    		casella.togliPedina();
+    		this.getScacchiera().setCasella(casella);//setta la casella di partenza vuota
+    		casella = this.getScacchiera().getScacchiera()[rigat-1][colonnat-1]; //aggiungo al to
+    		casella.inserisciPedina(pezzo);
+    		this.getScacchiera().setCasella(casella);
+    		
         } 
         
         return esito;
@@ -559,6 +582,47 @@ public class Stato{
     	return false;
     }
     
+    /**
+     * verifica se il pedone si sia mosso di due spazi
+     * 
+     * @param from
+     * @param to
+     * @return
+     */
+    public boolean isPedoneDueSpazi(int from,int to) {
+    	
+    	Pezzo pezzo = scacchiera.getPezzo(from);
+    	
+    	if(pezzo.mostraLettera() == 'P' || pezzo.mostraLettera() == 'p') {
+    		
+    		if((from - to) == 2 || (from-to) == -2)
+    				return true;
+    		
+    	}
+    	
+    	return false;
+    }
+    
+    /**
+     * la mossa è un possibile enpassant?
+     * 
+     * @param from
+     * @param to
+     * @return
+     */
+    public boolean isEnPassant(int from, int to) {
+    	
+    	Pezzo pezzo = scacchiera.getPezzo(from);
+    	
+    	if(pezzo.mostraLettera() == 'P' || pezzo.mostraLettera() == 'p') {
+    	
+    		if((from-to) == 10 || (from-to) == -10)
+    			return true;
+    	
+    	}
+    	
+    	return false;
+    }
     
    
     } 
