@@ -19,7 +19,7 @@ public class LauncherProva {
 		
 		
 		try {
-			p.eseguiMossa(62, 64);
+			p.eseguiMossa(62, 65);
 		} catch (EccezioneMossa e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

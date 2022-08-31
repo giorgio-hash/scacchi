@@ -114,7 +114,7 @@ public class Partita {
     	
     		
     		}else {
-    			throw new EccezioneMossa("Mossa non valida");
+    			throw new EccezioneMossa("Mossa di " +s.getScacchiera().getPezzo(from).toString()+ " non valida");
     		}
     		
     		
